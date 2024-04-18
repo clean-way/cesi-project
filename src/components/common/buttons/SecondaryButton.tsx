@@ -1,8 +1,10 @@
 import { Button } from "../../ui/button";
+import { ButtonProps } from "./interface/ButtonProps";
 
-export default function SecondaryButton({ text, onClick }: { text: string, onClick?: React.MouseEventHandler<HTMLButtonElement> }) {
+export default function SecondaryButton(props: ButtonProps) {
+    const { type, text, fullwidth, onClick } = { ...props };
     return (
-        <Button disabled={onClick ? false : true} variant={"secondary"} onClick={onClick}>
+        <Button type={type} disabled={type === 'submit' ? false : (onClick ? false : true)} variant={"secondary"} onClick={onClick} className={`${fullwidth ? 'w-full' : ''}`}>
             {text}
         </Button>
     );
