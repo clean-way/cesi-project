@@ -16,6 +16,8 @@ import { z } from 'zod';
 import { zodResolver } from "@hookform/resolvers/zod";
 import { H1, H2, H3, H4, H5, H6, P, Text } from "@/components/common/Texts";
 import Formfield from "@/components/common/inputs/Formfield";
+import { DatePicker, FormDatePicker } from "@/components/common/inputs/DatePickers";
+import React from "react";
 
 const formSchema = z.object({
     firstname: z.string({ required_error: 'Firstname is required' }).min(2, { message: "Firstname must be at least 2 characters." }).max(50, { message: "Firstname must be at most 50 characters." }),
@@ -32,6 +34,12 @@ const formSchema = z.object({
     }
 });
 
+const dateFormSchema = z.object({
+    date: z.date({
+        required_error: "A date is required.",
+    }),
+})
+
 export default function TestPage() {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -39,6 +47,18 @@ export default function TestPage() {
     function onSubmit(values: z.infer<typeof formSchema>) {
         console.log(values);
     }
+
+    const dateForm = useForm<z.infer<typeof dateFormSchema>>({
+        resolver: zodResolver(dateFormSchema),
+    })
+    function onSubmitDate(values: z.infer<typeof dateFormSchema>) {
+        console.log(values);
+    }
+
+
+    const [checked, setChecked] = React.useState<boolean>();
+    const [date, setDate] = React.useState<Date>();
+
     return (
         <div className="p-8 space-y-8">
             <div className="flex space-x-5">
@@ -61,10 +81,21 @@ export default function TestPage() {
                 <div>
                     <TextInput placeholder="Disabled" disabled />
                 </div>
-                <CheckboxWithText text="Checkbox with text" checked={false} />
+                <CheckboxWithText text="Checkbox with text" checked={checked} onCheckedChange={setChecked} />
                 <CheckboxWithText disabled text="Checkbox with text disabled" checked={false} />
                 <CheckboxWithText text="Checkbox with text checked" checked={true} />
                 <CheckboxWithText disabled text="Checkbox with text disabled checked" checked={true} />
+            </div>
+            <div className="flex space-x-5 items-center">
+                <DatePicker date={date} setDate={setDate} />
+                <div className="border p-3">
+                    <Form {...dateForm}>
+                        <form className="flex space-x-3" onSubmit={dateForm.handleSubmit(onSubmitDate)}>
+                            <FormDatePicker control={dateForm.control} name="date" />
+                            <PrimaryButton text="Submit" type="submit" />
+                        </form>
+                    </Form>
+                </div>
             </div>
             <div className="flex space-x-10">
                 <div className="flex p-4 border w-1/6">
