@@ -15,6 +15,7 @@ import { useForm } from "react-hook-form";
 import { z } from 'zod';
 import { zodResolver } from "@hookform/resolvers/zod";
 import { H1, H2, H3, H4, H5, H6, P, Text } from "@/components/common/Texts";
+import Formfield from "@/components/common/inputs/Formfield";
 
 const formSchema = z.object({
     firstname: z.string({ required_error: 'Firstname is required' }).min(2, { message: "Firstname must be at least 2 characters." }).max(50, { message: "Firstname must be at most 50 characters." }),
@@ -70,62 +71,12 @@ export default function TestPage() {
                     <Form {...form}>
                         <form className="space-y-3 w-full" onSubmit={form.handleSubmit(onSubmit)}>
                             <div className="flex space-x-2">
-                                <FormField
-                                    control={form.control}
-                                    name="lastname"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormControl>
-                                                <TextInput placeholder="Lastname" {...field} />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )} />
-                                <FormField
-                                    control={form.control}
-                                    name="firstname"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormControl>
-                                                <TextInput placeholder="Firstname" {...field} />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )} />
+                                <Formfield name="lastname" placeholder="Lastname" control={form.control} />
+                                <Formfield name="firstname" placeholder="Firstname" control={form.control} />
                             </div>
-                            <FormField
-                                control={form.control}
-                                name="email"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormControl>
-                                            <TextInput placeholder="Email" {...field} />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )} />
-                            <FormField
-                                control={form.control}
-                                name="password"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormControl>
-                                            <TextInput type="password" placeholder="Password" {...field} />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )} />
-                            <FormField
-                                control={form.control}
-                                name="confirmPassword"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormControl>
-                                            <TextInput type="password" placeholder="Confirm Password" {...field} />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )} />
+                            <Formfield name="email" placeholder="Email" control={form.control} />
+                            <Formfield name="password" placeholder="Password" control={form.control} type="password" />
+                            <Formfield name="confirmPassword" placeholder="Confirm Password" control={form.control} type="password" />
                             <PrimaryButton fullwidth text="Submit" type="submit" />
                         </form>
                     </Form>
