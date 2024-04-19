@@ -14,6 +14,7 @@ import { Form, FormControl, FormField, FormItem, FormMessage } from "@/component
 import { useForm } from "react-hook-form";
 import { z } from 'zod';
 import { zodResolver } from "@hookform/resolvers/zod";
+import { H1, H2, H3, H4, H5, H6, P, Text } from "@/components/common/Texts";
 
 const formSchema = z.object({
     firstname: z.string({ required_error: 'Firstname is required' }).min(2, { message: "Firstname must be at least 2 characters." }).max(50, { message: "Firstname must be at most 50 characters." }),
@@ -64,69 +65,89 @@ export default function TestPage() {
                 <CheckboxWithText text="Checkbox with text checked" checked={true} />
                 <CheckboxWithText disabled text="Checkbox with text disabled checked" checked={true} />
             </div>
-            <div className="flex p-4 border w-1/6">
-                <Form {...form}>
-                    <form className="space-y-3 w-full" onSubmit={form.handleSubmit(onSubmit)}>
-                        <div className="flex space-x-2">
+            <div className="flex space-x-10">
+                <div className="flex p-4 border w-1/6">
+                    <Form {...form}>
+                        <form className="space-y-3 w-full" onSubmit={form.handleSubmit(onSubmit)}>
+                            <div className="flex space-x-2">
+                                <FormField
+                                    control={form.control}
+                                    name="lastname"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormControl>
+                                                <TextInput placeholder="Lastname" {...field} />
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )} />
+                                <FormField
+                                    control={form.control}
+                                    name="firstname"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormControl>
+                                                <TextInput placeholder="Firstname" {...field} />
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )} />
+                            </div>
                             <FormField
                                 control={form.control}
-                                name="lastname"
+                                name="email"
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormControl>
-                                            <TextInput placeholder="Lastname" {...field} />
+                                            <TextInput placeholder="Email" {...field} />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
                                 )} />
                             <FormField
                                 control={form.control}
-                                name="firstname"
+                                name="password"
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormControl>
-                                            <TextInput placeholder="Firstname" {...field} />
+                                            <TextInput type="password" placeholder="Password" {...field} />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
                                 )} />
-                        </div>
-                        <FormField
-                            control={form.control}
-                            name="email"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormControl>
-                                        <TextInput placeholder="Email" {...field} />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )} />
-                        <FormField
-                            control={form.control}
-                            name="password"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormControl>
-                                        <TextInput type="password" placeholder="Password" {...field} />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )} />
-                        <FormField
-                            control={form.control}
-                            name="confirmPassword"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormControl>
-                                        <TextInput type="password" placeholder="Confirm Password" {...field} />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )} />
-                        <PrimaryButton fullwidth text="Submit" type="submit" />
-                    </form>
-                </Form>
+                            <FormField
+                                control={form.control}
+                                name="confirmPassword"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormControl>
+                                            <TextInput type="password" placeholder="Confirm Password" {...field} />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )} />
+                            <PrimaryButton fullwidth text="Submit" type="submit" />
+                        </form>
+                    </Form>
+                </div>
+                <div className="flex flex-col p-4 border w-1/6">
+                    <H1 text="Heading 1" />
+                    <H2 text="Heading 2" />
+                    <H3 text="Heading 3" />
+                    <H4 text="Heading 4" />
+                    <H5 text="Heading 5" />
+                    <H6 text="Heading 6" />
+                    <P text="Paragraph" />
+                </div>
+                <div className="flex flex-col p-4 border w-1/6">
+                    <Text variant="h1" text="Heading 1" underline fontWeight="semibold" />
+                    <Text variant="h2" text="Heading 2" italic underline />
+                    <Text variant="h3" text="Heading 3" fontWeight="medium" />
+                    <Text variant="h4" text="Heading 4" fontWeight="semibold" underline />
+                    <Text variant="h5" text="Heading 5" italic />
+                    <Text variant="h6" text="Heading 6" />
+                    <Text text="Paragraph" fontWeight="bold" />
+                </div>
             </div>
         </div>
     );
