@@ -10,16 +10,18 @@ import CheckboxWithText from "@/components/common/inputs/CheckboxWithText";
 import TextInput from "@/components/common/inputs/TextInput";
 import { FaPlus, FaTrashCan, FaArrowRight } from "react-icons/fa6";
 
-import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
+import { Form } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { z } from 'zod';
 import { zodResolver } from "@hookform/resolvers/zod";
-import { H1, H2, H3, H4, H5, H6, P, Text } from "@/components/common/Texts";
+import { H1, H2, H3, H4, H5, H6, P, Text } from "@/components/common/display/Texts";
 import Formfield from "@/components/common/inputs/Formfield";
 import { DatePicker, FormDatePicker } from "@/components/common/inputs/DatePickers";
 import React from "react";
-import { Card } from "@/components/ui/card";
+import { Card } from "@/components/common/Card";
 import { SkeletonLine, SkeletonRound } from "@/components/common/Skeletons";
+import ProgressBar from "@/components/common/display/ProgressBar";
+import { TimePicker } from "@/components/common/inputs/TimePicker";
 
 const formSchema = z.object({
     firstname: z.string({ required_error: 'Firstname is required' }).min(2, { message: "Firstname must be at least 2 characters." }).max(50, { message: "Firstname must be at most 50 characters." }),
@@ -60,6 +62,7 @@ export default function TestPage() {
 
     const [checked, setChecked] = React.useState<boolean>();
     const [date, setDate] = React.useState<Date>();
+    const [time, setTime] = React.useState<string | undefined>();
 
     return (
         <div className="p-8 space-y-8">
@@ -98,6 +101,7 @@ export default function TestPage() {
                         </form>
                     </Form>
                 </Card>
+                <TimePicker time={time} setTime={setTime}/>
             </div>
             <div className="flex space-x-10">
                 <Card className="p-4 w-1/6">
@@ -142,6 +146,9 @@ export default function TestPage() {
                     </div>
                     <SkeletonLine height={'75%'} isFullWidth />
                 </Card>
+            </div>
+            <div className="flex space-x-10">
+                <ProgressBar value={50} width={'15%'}/>
             </div>
         </div>
     );

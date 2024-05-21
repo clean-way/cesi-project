@@ -10,12 +10,12 @@ import { CalendarIcon } from "lucide-react";
 import React from "react";
 import { Control } from "react-hook-form";
 
-export interface DatePickerProps {
+interface DatePickerProps {
     date?: Date,
     setDate: React.Dispatch<React.SetStateAction<Date | undefined>>,
 }
 
-export interface FormDatePickerProps {
+interface FormDatePickerProps {
     name: string,
     control: Control<any>,
     label?: string,
