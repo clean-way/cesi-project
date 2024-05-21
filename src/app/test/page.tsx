@@ -18,6 +18,8 @@ import { H1, H2, H3, H4, H5, H6, P, Text } from "@/components/common/Texts";
 import Formfield from "@/components/common/inputs/Formfield";
 import { DatePicker, FormDatePicker } from "@/components/common/inputs/DatePickers";
 import React from "react";
+import { Card } from "@/components/ui/card";
+import { SkeletonLine, SkeletonRound } from "@/components/common/Skeletons";
 
 const formSchema = z.object({
     firstname: z.string({ required_error: 'Firstname is required' }).min(2, { message: "Firstname must be at least 2 characters." }).max(50, { message: "Firstname must be at most 50 characters." }),
@@ -88,17 +90,17 @@ export default function TestPage() {
             </div>
             <div className="flex space-x-5 items-center">
                 <DatePicker date={date} setDate={setDate} />
-                <div className="border p-3">
+                <Card className="p-3">
                     <Form {...dateForm}>
                         <form className="flex space-x-3" onSubmit={dateForm.handleSubmit(onSubmitDate)}>
                             <FormDatePicker control={dateForm.control} name="date" />
                             <PrimaryButton text="Submit" type="submit" />
                         </form>
                     </Form>
-                </div>
+                </Card>
             </div>
             <div className="flex space-x-10">
-                <div className="flex p-4 border w-1/6">
+                <Card className="p-4 w-1/6">
                     <Form {...form}>
                         <form className="space-y-3 w-full" onSubmit={form.handleSubmit(onSubmit)}>
                             <div className="flex space-x-2">
@@ -111,8 +113,8 @@ export default function TestPage() {
                             <PrimaryButton fullwidth text="Submit" type="submit" />
                         </form>
                     </Form>
-                </div>
-                <div className="flex flex-col p-4 border w-1/6">
+                </Card>
+                <Card className="p-4 w-1/6">
                     <H1 text="Heading 1" />
                     <H2 text="Heading 2" />
                     <H3 text="Heading 3" />
@@ -120,8 +122,8 @@ export default function TestPage() {
                     <H5 text="Heading 5" />
                     <H6 text="Heading 6" />
                     <P text="Paragraph" />
-                </div>
-                <div className="flex flex-col p-4 border w-1/6">
+                </Card>
+                <Card className="p-4 w-1/6">
                     <Text variant="h1" text="Heading 1" underline fontWeight="semibold" />
                     <Text variant="h2" text="Heading 2" italic underline />
                     <Text variant="h3" text="Heading 3" fontWeight="medium" />
@@ -129,7 +131,17 @@ export default function TestPage() {
                     <Text variant="h5" text="Heading 5" italic />
                     <Text variant="h6" text="Heading 6" />
                     <Text text="Paragraph" fontWeight="bold" />
-                </div>
+                </Card>
+                <Card className="p-4 w-1/4 space-y-4">                
+                    <div className="flex space-x-4">
+                        <SkeletonRound />
+                        <div className="flex flex-col space-y-2">
+                            <SkeletonLine />
+                            <SkeletonLine width={200}/>
+                        </div>
+                    </div>
+                    <SkeletonLine height={'75%'} isFullWidth />
+                </Card>
             </div>
         </div>
     );
