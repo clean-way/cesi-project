@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Onest as FontSans } from "next/font/google";
 import "@/styles/globals.css";
+import "./globals.css";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/utils/authOptions";
 
 import { cn } from '@/lib/utils';
 
@@ -14,15 +17,16 @@ export const metadata: Metadata = {
   description: "Cleanway's description",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const session = await getServerSession(authOptions);
+  console.log(session);
   return (
     <html lang="en">
-      <head />
-      <body className={cn("min-h-screen bg-background font-sans antialiased", fontSans.variable)}>{children}</body>
+      <body className={cn("min-h-screen bg-background font-sans antialiased", fontSans.variable)}><h1>{session?.user?.name}</h1>{children}</body>
     </html>
   );
 }
