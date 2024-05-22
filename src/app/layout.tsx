@@ -4,7 +4,6 @@ import "@/styles/globals.css";
 import "./globals.css";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/utils/authOptions";
-
 import { cn } from '@/lib/utils';
 
 const fontSans = FontSans({
