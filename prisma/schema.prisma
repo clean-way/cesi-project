@@ -31,7 +31,7 @@ model User {
   sessions              Session[]
   spot                  Spot[]                 @relation("spotTrash")
   spotTrashUpdate       SpotTrashUpdate[]      @relation("updateSpot")
-  role                  Roles                  @default(USER)  
+  role                  Roles                  @default(USER)
   // Optional for WebAuthn support
   authenticator         Authenticator[]
 }
