@@ -1,5 +1,6 @@
+"use client";
 import { SessionProvider } from "next-auth/react";
-import { LoginForm } from "./form";
+import { NewUserForm } from "./form"
 
 export default function RegisterPage() {
   return (
@@ -12,7 +13,9 @@ export default function RegisterPage() {
             className="h-screen w-full flex items-center justify-center bg-[url('/auth_bottom.png')] bg-no-repeat bg-bottom"
             style={{ backgroundSize: "contain" }}
           >
-              <LoginForm />
+            <SessionProvider>
+              <NewUserForm />
+            </SessionProvider>
           </div>
         </div>
       </section>

@@ -66,16 +66,34 @@ export default function TestPage() {
     return (
         <div className="p-8 space-y-8">
             <div className="flex space-x-5">
-                <PrimaryButton text="Primary" onClick={() => { }} />
-                <PrimaryButton text="PrimaryDisabled" />
-                <SecondaryButton text="Secondary" onClick={() => { }} />
-                <OutlineButton text="OutlineButton" onClick={() => { }} />
-                <DestructiveButton text="Destructive" onClick={() => { }} />
-                <DestructiveButton text="DestructiveDisabled" />
+                <PrimaryButton onClick={() => { }}>
+                    Primary
+                </PrimaryButton>
+                <PrimaryButton>
+                    PrimaryDisabled
+                </PrimaryButton>
+                <SecondaryButton onClick={() => { }}>
+                Secondary
+                </SecondaryButton>
+                <OutlineButton onClick={() => { }}>
+                OutlineButton
+                </OutlineButton>
+                <DestructiveButton onClick={() => { }}>
+                Destructive
+                </DestructiveButton>
+                <DestructiveButton>
+                DestructiveDisabled
+                </DestructiveButton>
                 <IconButton Icon={FaPlus} onClick={() => { }} />
-                <IconButton Icon={FaPlus} text="ButtonWithLeftIcon" onClick={() => { }} />
-                <IconButton Icon={FaArrowRight} text="ButtonWithRightIcon" rightIcon onClick={() => { }} />
-                <IconButton Icon={FaTrashCan} text="ButtonWithLeftIconDestructive" variant="destructive" onClick={() => { }} />
+                <IconButton Icon={FaPlus} onClick={() => { }}>
+                ButtonWithLeftIcon
+                </IconButton>
+                <IconButton Icon={FaArrowRight} rightIcon onClick={() => { }}>
+                ButtonWithRightIcon
+                </IconButton>
+                <IconButton Icon={FaTrashCan} variant="destructive" onClick={() => { }}>
+                ButtonWithLeftIconDestructive
+                </IconButton>
                 <Hyperlink text="Hyperlink" href="#" />
             </div>
             <div className="flex space-x-5">
@@ -96,7 +114,9 @@ export default function TestPage() {
                     <Form {...dateForm}>
                         <form className="flex space-x-3" onSubmit={dateForm.handleSubmit(onSubmitDate)}>
                             <FormDatePicker control={dateForm.control} name="date" />
-                            <PrimaryButton text="Submit" type="submit" />
+                            <PrimaryButton type="submit">
+                            Submit
+                            </PrimaryButton>
                         </form>
                     </Form>
                 </Card>
@@ -113,7 +133,9 @@ export default function TestPage() {
                             <Formfield name="email" placeholder="Email" control={form.control} />
                             <Formfield name="password" placeholder="Password" control={form.control} type="password" />
                             <Formfield name="confirmPassword" placeholder="Confirm Password" control={form.control} type="password" />
-                            <PrimaryButton fullwidth text="Submit" type="submit" />
+                            <PrimaryButton fullwidth type="submit">
+                            Submit
+                            </PrimaryButton>
                         </form>
                     </Form>
                 </Card>

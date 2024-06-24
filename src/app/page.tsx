@@ -1,8 +1,11 @@
 import Image from "next/image";
 import styles from "@/styles/page.module.css";
+import Header from "@/components/common/Header";
 
 export default function Home() {
   return (
+    <>
+    <Header />
     <main className={styles.main}>
       <div className={styles.description}>
         <p>
@@ -91,5 +94,6 @@ export default function Home() {
         </a>
       </div>
     </main>
+    </>
   );
 }
