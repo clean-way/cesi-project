@@ -14,119 +14,119 @@ datasource db {
 }
 
 model User {
-  Id                    String                 @id @default(cuid())
-  Email                 String                 @unique
-  EmailVerified         DateTime?
-  Name                  String?
-  Image                 String?
-  Password              String?
-  CreatedAt             DateTime               @default(now())
-  UpdatedAt             DateTime               @updatedAt
-  Articles              Articles[]
-  CleanWalksAuthor      CleanWalk[]
-  CleanWalksParticipant CleanWalkParticipant[]
-  Longitude             Float?
-  Latitude              Float?
-  Accounts              Account[]
-  Sessions              Session[]
-  Spot                  Spot[]                 @relation("spotTrash")
-  SpotTrashUpdate       SpotTrashUpdate[]      @relation("updateSpot")
-  Role                  Roles
+  id                    String                 @id @default(cuid())
+  email                 String                 @unique
+  emailVerified         DateTime?
+  name                  String?
+  image                 String?
+  password              String?
+  createdAt             DateTime               @default(now())
+  updatedAt             DateTime               @updatedAt
+  articles              Articles[]
+  cleanWalksAuthor      CleanWalk[]
+  cleanWalksParticipant CleanWalkParticipant[]
+  longitude             Float?
+  latitude              Float?
+  accounts              Account[]
+  sessions              Session[]
+  spot                  Spot[]                 @relation("spotTrash")
+  spotTrashUpdate       SpotTrashUpdate[]      @relation("updateSpot")
+  role                  Roles                  @default(USER)  
   // Optional for WebAuthn support
-  Authenticator         Authenticator[]
+  authenticator         Authenticator[]
 }
 
 model CleanWalkParticipant {
-  Id          String    @id @default(cuid())
-  CleanWalkId String
-  CleanWalk   CleanWalk @relation(fields: [CleanWalkId], references: [Id])
-  UserId      String
-  User        User      @relation(fields: [UserId], references: [Id])
+  id          String    @id @default(cuid())
+  cleanWalkId String
+  cleanWalk   CleanWalk @relation(fields: [cleanWalkId], references: [id])
+  userId      String
+  user        User      @relation(fields: [userId], references: [id])
 }
 
 model CleanWalk {
-  Id                   String                 @id @default(cuid())
-  Description          String
-  Name                 String
-  Author               User                   @relation(fields: [AuthorId], references: [Id])
-  AuthorId             String
-  Longitude            Float
-  Latitude             Float
-  BannerImage          String?
-  StartAt              DateTime
-  EndAt                DateTime
-  CreatedAt            DateTime               @default(now())
-  UpdatedAt            DateTime               @updatedAt
-  CleanWalkParticipant CleanWalkParticipant[]
+  id                   String                 @id @default(cuid())
+  description          String
+  name                 String
+  author               User                   @relation(fields: [authorId], references: [id])
+  authorId             String
+  longitude            Float
+  latitude             Float
+  bannerImage          String?
+  startAt              DateTime
+  endAt                DateTime
+  createdAt            DateTime               @default(now())
+  updatedAt            DateTime               @updatedAt
+  cleanWalkParticipant CleanWalkParticipant[]
 }
 
 model Articles {
-  Id        String   @id @default(cuid())
-  Title     String
-  Body      String
-  Author    User     @relation(fields: [AuthorId], references: [Id])
-  AuthorId  String
-  CreatedAt DateTime @default(now())
-  UpdatedAt DateTime @updatedAt
+  id        String   @id @default(cuid())
+  title     String
+  body      String
+  author    User     @relation(fields: [authorId], references: [id])
+  authorId  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model DumpQuantities {
-  Id                  String                @id @default(cuid())
-  Label               String
-  ImageUri            String
-  Quantity            Int
-  DumpQuantitiesTrash DumpQuantitiesTrash[]
+  id                  String                @id @default(cuid())
+  label               String
+  imageUri            String
+  quantity            Int
+  dumpQuantitiesTrash DumpQuantitiesTrash[]
 }
 
 model DumpQuantitiesTrash {
-  Id               String         @id @default(cuid())
-  DumpQuantitiesId String
-  DumpQuantities   DumpQuantities @relation(fields: [DumpQuantitiesId], references: [Id])
-  TrashId          String
-  Trash            Trash          @relation(fields: [TrashId], references: [Id])
+  id               String         @id @default(cuid())
+  dumpQuantitiesId String
+  dumpQuantities   DumpQuantities @relation(fields: [dumpQuantitiesId], references: [id])
+  trashId          String
+  trash            Trash          @relation(fields: [trashId], references: [id])
 }
 
 model Trash {
-  Id                  String                @id @default(cuid())
-  Name                String
-  ImageUri            String
-  SpotTrash           SpotTrash[]
-  DumpQuantitiesTrash DumpQuantitiesTrash[]
+  id                  String                @id @default(cuid())
+  name                String
+  imageUri            String
+  spotTrash           SpotTrash[]
+  dumpQuantitiesTrash DumpQuantitiesTrash[]
 }
 
 model SpotTrash {
-  Id              String            @id @default(cuid())
-  TrashId         String
-  Trash           Trash             @relation(fields: [TrashId], references: [Id])
-  SpotId          String
-  Spot            Spot              @relation(fields: [SpotId], references: [Id])
-  QuantityLeft    Int
-  SpotTrashUpdate SpotTrashUpdate[]
+  id              String            @id @default(cuid())
+  trashId         String
+  trash           Trash             @relation(fields: [trashId], references: [id])
+  spotId          String
+  spot            Spot              @relation(fields: [spotId], references: [id])
+  quantityLeft    Int
+  spotTrashUpdate SpotTrashUpdate[]
 }
 
 model Spot {
-  Id                 String             @id @default(cuid())
-  AuthorId           String
-  Author             User               @relation(fields: [AuthorId], references: [Id], name: "spotTrash")
-  Description        String
-  Longitude          Float
-  Latitude           Float
-  StartPhotoUri      String
-  EndPhotoUri        String?
-  CreatedAt          DateTime           @default(now())
-  UpdatedAt          DateTime           @updatedAt
-  CompleteCleaningAt DateTime?
-  Access             AccessDifficulties
-  SpotTrash          SpotTrash[]
+  id                 String             @id @default(cuid())
+  authorId           String
+  author             User               @relation(fields: [authorId], references: [id], name: "spotTrash")
+  description        String
+  longitude          Float
+  latitude           Float
+  startPhotoUri      String
+  endPhotoUri        String?
+  createdAt          DateTime           @default(now())
+  updatedAt          DateTime           @updatedAt
+  completeCleaningAt DateTime?
+  access             AccessDifficulties
+  spotTrash          SpotTrash[]
 }
 
 model SpotTrashUpdate {
-  Id          String    @id @default(cuid())
-  SpotTrashId String
-  SpotTrash   SpotTrash @relation(fields: [SpotTrashId], references: [Id])
-  Quantity    Int
-  User        User?     @relation("updateSpot", fields: [UserId], references: [Id])
-  UserId      String?
+  id          String    @id @default(cuid())
+  spotTrashId String
+  spotTrash   SpotTrash @relation(fields: [spotTrashId], references: [id])
+  quantity    Int
+  user        User?     @relation("updateSpot", fields: [userId], references: [id])
+  userId      String?
 }
 
 model Account {
@@ -145,7 +145,7 @@ model Account {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  user User @relation(fields: [userId], references: [Id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@id([provider, providerAccountId])
 }
@@ -154,7 +154,7 @@ model Session {
   sessionToken String   @unique
   userId       String
   expires      DateTime
-  user         User     @relation(fields: [userId], references: [Id], onDelete: Cascade)
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -180,7 +180,7 @@ model Authenticator {
   credentialBackedUp   Boolean
   transports           String?
 
-  user User @relation(fields: [userId], references: [Id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 // Enums
