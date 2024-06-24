@@ -4,6 +4,7 @@ import "@/styles/globals.css";
 import { cn } from "@/lib/utils";
 import SessionProvider from "@/components/SessionProvider";
 import { getServerSession } from "next-auth";
+import { authOptions } from "@/utils/authOptions";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -20,7 +21,7 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const session = await getServerSession();
+  const session = await getServerSession(authOptions);
 
   return (
     <html lang="en">
