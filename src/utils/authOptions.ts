@@ -6,7 +6,8 @@ import GoogleProvider from "next-auth/providers/google";
 import { PrismaAdapter } from "@auth/prisma-adapter"
 import db from "@/utils/db";
 import type { Adapter } from 'next-auth/adapters';
-import { SessionStrategy } from "next-auth";
+import { Session, SessionStrategy, TokenSet } from "next-auth";
+import { Roles, User } from "@prisma/client";
 
 export const authOptions = {
     pages: {
@@ -43,6 +44,8 @@ export const authOptions = {
                         id: user.id,
                         name: user.name,
                         email: user.email,
+                        image: user.image,
+                        role: user.role,
                     }
                 }
 
@@ -86,5 +89,18 @@ export const authOptions = {
         }
     },
     session: { strategy: "jwt" as SessionStrategy},
+    callbacks: {
+        async jwt({ token, user } : { token: TokenSet, user: User }) {
+            if(user) token.role = user.role
+            return token
+        },
+        async session({ session, token } : { session: Session, token: TokenSet }) {
+            if(session.user) {
+                session.user.role = token.role as Roles
+            }
+
+            return session
+        }
+    },
     secret: process.env.NEXTAUTH_SECRET
 };
