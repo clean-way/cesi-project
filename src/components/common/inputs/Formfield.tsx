@@ -18,7 +18,7 @@ export default function Formfield(props: FormfieldProps) {
             control={control}
             name={name}
             render={({ field }) => (
-                <FormItem className="w-full">
+                <FormItem>
                     {label && <FormLabel>{label}</FormLabel>}
                     <FormControl>
                         <TextInput type={type} placeholder={placeholder} {...field} />

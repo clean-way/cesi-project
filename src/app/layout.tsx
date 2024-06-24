@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
 import { Onest as FontSans } from "next/font/google";
 import "@/styles/globals.css";
-import { cn } from "@/lib/utils";
-import SessionProvider from "@/components/SessionProvider";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/utils/authOptions";
+import { cn } from '@/lib/utils';
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -22,19 +21,10 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const session = await getServerSession(authOptions);
-
+  console.log(session);
   return (
     <html lang="en">
-      <body
-        className={cn(
-          "min-h-screen bg-background font-sans antialiased",
-          fontSans.variable
-        )}
-      >
-        <SessionProvider session={session}>
-        {children}
-        </SessionProvider>
-      </body>
+      <body className={cn("min-h-screen bg-background font-sans antialiased", fontSans.variable)}><h1>{session?.user?.name}</h1>{children}</body>
     </html>
   );
 }
