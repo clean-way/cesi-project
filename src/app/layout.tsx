@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Onest as FontSans } from "next/font/google";
 import "@/styles/globals.css";
-import "./globals.css";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/utils/authOptions";
 import { cn } from '@/lib/utils';
