@@ -12,7 +12,7 @@ export function SkeletonRound(props : SkeletonsProps){
     return (
         <div className='rounded-full' style={{
             height: height,
-            width: width,
+            width: height,
         }}>
             <Skeleton className='rounded-full size-full' />
         </div>
