@@ -4,8 +4,7 @@ import ReactMapGL, { NavigationControl } from "react-map-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import LocationMarker from "./LocationMarker";
 
-const MAPBOX_TOKEN =
-  "pk.eyJ1IjoidGhlby10cnV2ZWxvdCIsImEiOiJjbHVncXUzcHUyYnhuMnFuaWw0Z3k1NHAxIn0.uG3H-9gH1RC7r5QyAEwxEA"; // Remplacez par votre propre token Mapbox
+const MAPBOX_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
 
 function MapPage() {
   const [viewState, setviewState] = useState({
