@@ -16,30 +16,28 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
     })
   }
   try {
-    const user = await prisma.user.findUnique({
+    const article = await prisma.articles.findUnique({
       where: {
         id: params.id as string,
       },
     });
 
-    if (!user) {
+    if (!article) {
       return NextResponse.json({
-        message: "user not found"
+        message: "article not found"
       }, {
         status: 404
       })
     }
 
     return NextResponse.json({
-      user: {
-        id: user.id,
-        name: user.name,
-        email: user.email,
+        article: {
+            article
       },
     });
   } catch (error) {
     return NextResponse.json({
-      message: "user not found"
+      message: "article not found"
     }, {
       status: 404
     })
@@ -50,7 +48,7 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
 export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
   const session = await getServerSession(authOptions);
 
-  if (!session || session.user.role === Roles.WRITER || session.user.role === Roles.USER) {
+  if (!session || session.user.role === Roles.USER) {
     return NextResponse.json({
       message: "Unauthorized"
     }, {
@@ -59,21 +57,30 @@ export async function DELETE(req: NextRequest, { params }: { params: { id: strin
   }
 
   try {
-    const user = await prisma.user.findUnique({
+    const article = await prisma.articles.findUnique({
       where: {
         id: params.id as string,
       },
     });
 
-    if (!user) {
+    if (!article) {
       return NextResponse.json({
-        message: "user not found"
+        message: "article not found"
       }, {
         status: 404
       })
     }
 
-    await prisma.user.delete({
+    if (session.user.role === Roles.WRITER && session.user.id !== article.authorId) {
+        return NextResponse.json({
+            message: "Unauthorized"
+        }, {
+            status: 401
+        })
+        }
+
+
+    await prisma.articles.delete({
       where: {
         id: params.id as string,
       },
@@ -94,7 +101,7 @@ export async function DELETE(req: NextRequest, { params }: { params: { id: strin
 export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
   const session = await getServerSession(authOptions);
 
-  if (!session) {
+  if (!session || session.user.role === Roles.USER) {
     return NextResponse.json({
       message: "Unauthorized"
     }, {
@@ -103,21 +110,21 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
   }
 
   try {
-    const user = await prisma.user.findUnique({
+    const article = await prisma.articles.findUnique({
       where: {
         id: params.id as string,
       },
     });
 
-    if (!user) {
+    if (!article) {
       return NextResponse.json({
-        message: "user not found"
+        message: "article not found"
       }, {
         status: 404
       })
     }
 
-    if (session.user.id !== user.id) {
+    if (session.user.role === Roles.WRITER && session.user.id !== article.authorId) {
       return NextResponse.json({
         message: "Unauthorized"
       }, {
@@ -125,26 +132,26 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
       })
     }
 
-    const { name, email } = await req.json();
+    const { title, body } = await req.json();
 
-    await prisma.user.update({
+    await prisma.articles.update({
       where: {
         id: params.id as string,
       },
       data: {
-        name,
-        email,
+        title,
+        body,
       },
     });
 
     return NextResponse.json({
-      message: "user updated"
+      message: "article updated"
     }, {
       status: 200
     });
   } catch (error) {
     return NextResponse.json({
-      message: "user not found"
+      message: "article not found"
     }, {
       status: 404
     })
