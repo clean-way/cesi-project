@@ -111,7 +111,7 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
 
     if (!user) {
       return NextResponse.json({
-        message: "article not found"
+        message: "user not found"
       }, {
         status: 404
       })
