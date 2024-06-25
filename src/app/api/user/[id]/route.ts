@@ -103,13 +103,13 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
   }
 
   try {
-    const article = await prisma.articles.findUnique({
+    const user = await prisma.user.findUnique({
       where: {
         id: params.id as string,
       },
     });
 
-    if (!article) {
+    if (!user) {
       return NextResponse.json({
         message: "article not found"
       }, {
@@ -117,7 +117,7 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
       })
     }
 
-    if (session.user.id !== article.authorId) {
+    if (session.user.id !== user.id) {
       return NextResponse.json({
         message: "Unauthorized"
       }, {
