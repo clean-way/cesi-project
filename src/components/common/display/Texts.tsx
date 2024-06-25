@@ -138,6 +138,26 @@ export function P(props: BaseTextProps) {
     );
 }
 
+export function SmallText(props: BaseTextProps) {
+    const { text, italic = true, underline, fontWeight } = { ...props };
+    let weight: string = 'font-normal';
+    switch (fontWeight) {
+        case 'regular':
+            weight = 'font-normal';
+        case 'medium':
+            weight = 'font-medium';
+        case 'semibold':
+            weight = 'font-semibold';
+        case 'bold':
+            weight = 'font-bold';
+    }
+    return (
+        <div className={`text-xs xl:text-sm ${italic ? 'italic' : ''} ${underline ? 'underline' : ''} ${weight}`}>
+            {text}
+        </div>
+    );
+}
+
 export interface BaseTextProps {
     text: string,
     italic?: boolean,
@@ -146,7 +166,7 @@ export interface BaseTextProps {
 };
 
 export interface TextProps extends BaseTextProps {
-    variant?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p',
+    variant?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'small',
 };
 
 export function Text(props: TextProps) {
@@ -165,7 +185,9 @@ export function Text(props: TextProps) {
         case 'h6':
             return <H6 {...props} />
         case 'p':
-            return <P {...props} />
+            return <P {...props} />        
+        case 'small':
+            return <SmallText {...props} />
         default:
             return <P {...props} />
     }
