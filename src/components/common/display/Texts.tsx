@@ -52,7 +52,7 @@ export function H3(props: BaseTextProps) {
             weight = 'font-bold';
     }
     return (
-        <div className={`text-h3 ${italic ? 'italic' : ''} ${underline ? 'underline' : ''} ${weight}`}>
+        <div className={`text-xl xl:text-h3 ${italic ? 'italic' : ''} ${underline ? 'underline' : ''} ${weight}`}>
             {text}
         </div>
     );
