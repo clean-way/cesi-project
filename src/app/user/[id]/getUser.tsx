@@ -34,7 +34,7 @@ async function getUser(id: string) {
 
     return (
         <Button onClick={() =>
-            getUser("clxsripb7000011d6chducu3a")
+            getUser("clxu7e3120000a3la442rzp17")
         }>GET</Button>
     )
 }

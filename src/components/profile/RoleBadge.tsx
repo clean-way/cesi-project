@@ -2,6 +2,10 @@ import { Roles } from "@prisma/client";
 import { Text } from "@/components/common/display/Texts";
 
 export default function RoleBadge({role} : {role: Roles}){
+    if(role == Roles.USER || !role){
+        return <div></div>;
+    }
+
     let text = '';
     switch(role){
         case 'WRITER':
@@ -13,6 +17,7 @@ export default function RoleBadge({role} : {role: Roles}){
         case 'MODERATOR':
             text = 'Modérateur';
             break;
+        
     }
     return(
         <div className="flex w-fit justify-center items-center bg-primary text-primary-foreground p-1 rounded-md">

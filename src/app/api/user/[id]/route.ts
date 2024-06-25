@@ -35,6 +35,8 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
         id: user.id,
         name: user.name,
         email: user.email,
+        image: user.image,
+        createdAt: user.createdAt,
       },
     });
   } catch (error) {
