@@ -1,10 +1,10 @@
 "use client";
-import { SessionProvider, useSession, signOut } from "next-auth/react";
+import { useSession, signOut } from "next-auth/react";
 import Link from "next/link";
 import PrimaryButton from "@/components/common/buttons/PrimaryButton";
 
 export default function Header() {
-    const { data: session, status } = useSession()
+    const { data: session } = useSession()
 
     return (
         <div className="bg-white shadow h-16 flex items-center">
