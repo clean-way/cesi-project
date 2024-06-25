@@ -5,7 +5,11 @@ export default function UserAvatar({source, username} : {size?: number, source: 
     return (
         <Avatar className="size-full">
             <AvatarImage src={source} alt={username} />
-            <AvatarFallback className="w-full h-full">{`${split[0][0]}${split[1][0] ?? ''}`}</AvatarFallback>
+            <AvatarFallback className="w-full h-full">
+                <div>
+                    {`${split[0][0].toUpperCase()}${split[1][0].toUpperCase() ?? ''}`}
+                </div>
+            </AvatarFallback>
         </Avatar>
     );
 }
