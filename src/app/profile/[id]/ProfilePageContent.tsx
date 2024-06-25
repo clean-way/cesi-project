@@ -2,8 +2,9 @@ import { Card } from "@/components/common/Card";
 import UserAvatar from "@/components/common/display/UserAvatar";
 import { Text } from "@/components/common/display/Texts";
 import TrashCard from "@/components/profile/TrashCard";
-import { FaSmoking, FaMaskFace  } from "react-icons/fa6";
-import { PiTireDuotone  } from "react-icons/pi";
+import { FaSmoking, FaMaskFace, FaBottleWater, FaCarBurst, FaFishFins, FaCartShopping } from "react-icons/fa6";
+import { PiTireDuotone, PiBirdFill, PiTreeEvergreenBold } from "react-icons/pi";
+import { GrPaint } from "react-icons/gr";
 import RoleBadge from "@/components/profile/RoleBadge";
 import ArticleCard from "@/components/profile/ArticleCard";
 import { User } from "@prisma/client";
@@ -47,22 +48,22 @@ export default function ProfilePageContent({user} : {user : User}){
                             <TrashCard Icon={FaSmoking} quantity={2} label="poignées"/>
                             <TrashCard Icon={PiTireDuotone} quantity={1} label="unité"/>  
                             <TrashCard Icon={FaMaskFace} quantity={10} label="unités"/> 
-                            <TrashCard Icon={FaSmoking} quantity={2} label="poignées"/>
-                            <TrashCard Icon={PiTireDuotone} quantity={1} label="unité"/>  
-                            <TrashCard Icon={FaMaskFace} quantity={10} label="unités"/> 
-                            <TrashCard Icon={FaSmoking} quantity={2} label="poignées"/>
-                            <TrashCard Icon={PiTireDuotone} quantity={1} label="unité"/>  
-                            <TrashCard Icon={FaMaskFace} quantity={10} label="unités"/> 
-                            <TrashCard Icon={FaSmoking} quantity={2} label="poignées"/>
-                            <TrashCard Icon={PiTireDuotone} quantity={1} label="unité"/>  
-                            <TrashCard Icon={FaMaskFace} quantity={10} label="unités"/> 
-                            <div className="w-[140px] invisible"></div>
-                            <div className="w-[140px] invisible"></div>
-                            <div className="w-[140px] invisible"></div>
-                            <div className="w-[140px] invisible"></div>    
-                            <div className="w-[140px] invisible"></div>
-                            <div className="w-[140px] invisible"></div>
-                            <div className="w-[140px] invisible"></div>
+                            <TrashCard Icon={FaBottleWater} quantity={2} label="unités"/>
+                            <TrashCard Icon={PiBirdFill} quantity={3} label="kg"/>  
+                            <TrashCard Icon={GrPaint} quantity={10} label="unités"/> 
+                            <TrashCard Icon={PiTreeEvergreenBold} quantity={1} label="unité"/>
+                            <TrashCard Icon={FaCarBurst} quantity={1} label="unité"/>  
+                            <TrashCard Icon={FaFishFins} quantity={10} label="kg"/>
+                            <TrashCard Icon={FaCartShopping} quantity={2} label="unités"/>
+                            <div className="w-[120px] xl:w-[140px] collapse xl:invisible"></div>
+                            <div className="w-[120px] xl:w-[140px] collapse xl:invisible"></div>
+                            <div className="w-[120px] xl:w-[140px] collapse xl:invisible"></div>
+                            <div className="w-[120px] xl:w-[140px] collapse xl:invisible"></div>    
+                            <div className="w-[120px] xl:w-[140px] collapse xl:invisible"></div>
+                            <div className="w-[120px] xl:w-[140px] collapse xl:invisible"></div>
+                            <div className="w-[120px] xl:w-[140px] collapse xl:invisible"></div>  
+                            <div className="w-[120px] xl:w-[140px] collapse xl:invisible"></div>
+                            <div className="w-[120px] xl:w-[140px] collapse xl:invisible"></div>
                         </div>
                     </div>
                     <div className="space-y-2">
@@ -74,13 +75,13 @@ export default function ProfilePageContent({user} : {user : User}){
                                 date={new Date("2024-01-12")}
                                 />
                             <ArticleCard 
-                                title="Récap de ma première greenwalk !" 
-                                body="Petit article autjourd'hui pour vous faire un récapitulatif de mon expérience lors de ma première greenwalk"
+                                title="Récap de ma seconde greenwalk !" 
+                                body="Petit article autjourd'hui pour vous faire un récapitulatif de mon expérience lors de ma seonde greenwalk"
                                 date={new Date("2024-01-30")}
                                 />
                             <ArticleCard 
-                                title="Récap de ma première greenwalk !" 
-                                body="Petit article autjourd'hui pour vous faire un récapitulatif de mon expérience lors de ma première greenwalk"
+                                title="J'adore Cleanway !" 
+                                body="Petit article autjourd'hui pour vous faire part de mon quotidien avec Cleanway !"
                                 date={new Date("2024-02-01")}
                                 />
                         </div>
