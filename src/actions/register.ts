@@ -1,11 +1,11 @@
 "use server";
 
 import db from "@/utils/db";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 
-export default async function register(email : string, password : string, name : string) {
+export default async function register(email: string, password: string, name: string) {
     try {
-        const findUser = await db.user.findFirst({ 
+        const findUser = await db.user.findFirst({
             where: { email: email }
         });
 
