@@ -1,6 +1,8 @@
 "use client";
 import { useSession, signOut } from "next-auth/react";
 import Link from "next/link";
+import { Text } from "@/components/common/display/Texts";
+import Image from "next/image";
 import PrimaryButton from "@/components/common/buttons/PrimaryButton";
 import Image from "next/image";
 import { MenuIcon } from "lucide-react";
@@ -9,7 +11,6 @@ import { useEffect, useState } from "react";
 export default function Header() {
   const { data: session } = useSession();
     const [open, setOpen] = useState(false);
-
 
     useEffect(() => {
         const handleClickOutside = (e: MouseEvent) => {

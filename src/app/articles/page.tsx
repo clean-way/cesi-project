@@ -4,6 +4,7 @@ import { Text } from "@/components/common/display/Texts";
 import ArticlesList from "./ArticlesList";
 import { useEffect, useState } from "react";
 import { Articles } from "@prisma/client";
+import Header from "@/components/common/Header";
 
 async function getArticles() : Promise<any>{
     try {
@@ -38,6 +39,8 @@ export default function ArticlesPage(){
     }, []);
     
     return(
+    <>
+        <Header />
         <section className="bg-ct-blue-600 min-h-screen xl:py-10 xl:px-5">
             <Card className="container mx-auto p-8 xl:p-12 h-full flex flex-col justify-center space-y-5">
                 <div className="space-y-8">
@@ -52,5 +55,6 @@ export default function ArticlesPage(){
                 </div>
             </Card>
         </section>
+    </>
     );
 }
