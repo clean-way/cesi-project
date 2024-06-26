@@ -1,6 +1,8 @@
 "use client";
 import { useSession, signOut } from "next-auth/react";
 import Link from "next/link";
+import { Text } from "@/components/common/display/Texts";
+import Image from "next/image";
 import PrimaryButton from "@/components/common/buttons/PrimaryButton";
 
 export default function Header() {
@@ -9,10 +11,23 @@ export default function Header() {
     return (
         <div className="bg-white shadow h-16 flex items-center">
             <div className="container mx-auto px-4">
-                <div className="flex justify-between items-center py-4">
+                <div className="flex justify-between items-center py-4 space-x-1">
                     <Link href="/">
-                        CleanWay
+                        <div className="flex justify-center items-center space-x-2"> 
+                            <Image src='/cleanway.png' width={30} height={10} alt='Cleanway' />  
+                            <div className="hidden xl:block">
+                                <Text text="Cleanway" variant="h3"/>
+                            </div>
+                        </div>
                     </Link>
+                    <div className="space-x-4">
+                        <Link href="/cleanwalks">
+                            Cleanways
+                        </Link>
+                        <Link href="/articles">
+                            Articles
+                        </Link>
+                    </div>
                     <nav>
                         {!session?.user ? (
                         <ul className="flex space-x-4">
@@ -30,13 +45,13 @@ export default function Header() {
                         ) : (
                         <ul className="flex space-x-4 items-center">
                             <li>
-                                <p>
+                                <p className="hidden xl:block">
                                     {session.user.email}
                                 </p>
                             </li>
                             <li>
-                                <Link href="/dashboard">
-                                    Dashboard
+                                <Link href={`/profile/${session.user.id}`}>
+                                    Profil
                                 </Link>
                             </li>
                             <li>

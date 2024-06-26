@@ -5,12 +5,17 @@ import { useEffect, useState } from "react";
 import { Articles, CleanWalk, User } from "@prisma/client";
 import UserAvatar from "@/components/common/display/UserAvatar";
 import CleanwalkCard from "@/components/cleanwalks/CleanwalkCard";
+import { useRouter } from "next/navigation";
+import Header from "@/components/common/Header";
+import NeedAuthButton from "@/components/common/NeedAuthButton";
 
 export default function CleanwalkPage({params} : {params: {id : string}}){
 
     const {id} = params;
 
-    const [cleanwalk, setCleanwalk] = useState<CleanWalk | null>();
+    const [cleanwalk, setCleanwalk] = useState<CleanWalk | null>(); 
+
+    const [error, setError] = useState<boolean>(false);
     
     useEffect(() => {
         async function getCleanwalk(id: string) : Promise<any>{
@@ -31,7 +36,7 @@ export default function CleanwalkPage({params} : {params: {id : string}}){
         
                 return await rawResponse.json();
             } catch (err) {
-                throw err;
+                setError(true);
             }
         }
         
@@ -39,15 +44,22 @@ export default function CleanwalkPage({params} : {params: {id : string}}){
             setCleanwalk(value.cleanWalk);
         });
         
-    }, []);
+    }, [id]);
+
+    if(error){
+        return <NeedAuthButton/>;
+    }
 
     if(!cleanwalk){
         return <></>;
     }
     
     return(
-        <section className="bg-ct-blue-600 min-h-screen xl:py-10 xl:px-24">
-            <CleanwalkCard cleanwalk={cleanwalk} fullSize/>
-        </section>
+        <>
+            <Header />
+            <section className="bg-ct-blue-600 min-h-screen xl:py-10 xl:px-24">
+                <CleanwalkCard cleanwalk={cleanwalk} fullSize/>
+            </section>
+        </>
     );
 }

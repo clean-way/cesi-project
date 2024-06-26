@@ -3,11 +3,16 @@
 import { User } from "@prisma/client";
 import { useEffect, useState } from "react";
 import ProfilePageContent from "./ProfilePageContent";
+import Header from "@/components/common/Header";
+import { useRouter } from "next/navigation";
+import NeedAuthButton from "@/components/common/NeedAuthButton";
 
 export default function ProfilePage({params}: {params: {id : string}}){
     const {id} = params;
 
     const [user, setUser] = useState<User | null>(null);
+
+    const [error, setError] = useState<boolean>(false);
     
     useEffect(() => {
         async function getUser(id: string) : Promise<any>{
@@ -28,20 +33,27 @@ export default function ProfilePage({params}: {params: {id : string}}){
         
                 return await rawResponse.json();
             } catch (err) {
-                throw err;
+                setError(true);
             }
         }
         
         getUser(id).then((value) => {
             setUser(value.user);
         });
-    }, []);
+    }, [id]);
+
+    if(error){
+        return <NeedAuthButton/>;
+    }
 
     if(!user){
         return <div></div>;
     }
 
     return (
-        <ProfilePageContent user={user}/>
+        <>
+            <Header />
+            <ProfilePageContent user={user}/>
+        </>
     );
 }
