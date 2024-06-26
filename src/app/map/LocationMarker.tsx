@@ -32,7 +32,7 @@ function LocationMarker({
             if (autoFocus && userPosition === null) {
               map!.flyTo({
                 center: [longitude, latitude],
-                zoom: map?.getZoom(),
+                zoom: 19,
                 animate: false,
               })
             } else if (autoFocus) {

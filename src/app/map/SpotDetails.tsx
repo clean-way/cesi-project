@@ -49,11 +49,15 @@ function SpotDetails({ spot, setSpot }: { spot: SpotWithTrash; setSpot: (spot: S
           height={200}
         />
         <div>
-          <H2>Difficulté d&apos;accès :</H2>
+          <h2
+            className="text-lg font-bold text-gray-800"
+          >Difficulté d&apos;accès :</h2>
           <p>{difficultyMapper(spot.access)}</p>
         </div>
         <div>
-          <h2>Déchets :</h2>
+          <h2
+            className="text-lg font-bold text-gray-800"
+          >Déchets :</h2>
           <ul>
             {spot.spotTrash.map((trash) => (
               <li key={trash.id}>
