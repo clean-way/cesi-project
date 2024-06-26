@@ -3,6 +3,7 @@ import { Card } from "@/components/common/Card";
 import { Text } from "@/components/common/display/Texts";
 import { useEffect, useState } from "react";
 import { Articles, User } from "@prisma/client";
+import Image from "next/image";
 import UserAvatar from "@/components/common/display/UserAvatar";
 
 async function getArticle(id: string) : Promise<any>{
@@ -73,8 +74,8 @@ export default function ArticlePage({params} : {params: {id : string}}){
     return(
         <section className="bg-ct-blue-600 min-h-screen xl:py-10 xl:px-5">
             <Card className="container mx-auto p-8 xl:px-12 xl:pb-12 h-full flex flex-col justify-center space-y-5">
-                <div className="flex justify-center xl:justify-start items-center space-x-2 pb-4">
-                    <img src="/cleanway.png" className="h-[50px] w-[40px]"/>
+                <div className="flex justify-center xl:justify-start items-center space-x-2 pb-4">                    
+                    <Image src='/cleanway.png' width={40} height={50} alt='Cleanway' />  
                     <Text text="Cleanway" variant="h2"/>
                 </div>
                 <div className="space-y-1">                                        

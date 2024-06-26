@@ -1,6 +1,7 @@
 import { Card, CardContent, CardHeader } from "../common/Card";
 import { Text } from "@/components/common/display/Texts";
 import { CleanWalk } from "@prisma/client";
+import Image from "next/image";
 import Link from "next/link";
 
 export default function CleanwalkCard({cleanwalk, fullSize} : {cleanwalk : CleanWalk, fullSize?: boolean}){  
@@ -13,9 +14,9 @@ export default function CleanwalkCard({cleanwalk, fullSize} : {cleanwalk : Clean
                 <CardHeader className="p-0">
                     {
                         cleanwalk.bannerImage ? 
-                        <img src={cleanwalk.bannerImage} className={`rounded-t-lg ${!fullSize ? 'h-[140px]' : 'h-[200px]'}`} style={{objectFit: 'cover'}}/> : 
+                        <Image src={cleanwalk.bannerImage} width={0} height={0} className={`rounded-t-lg`} style={{objectFit: 'cover', width: '100%', height: fullSize ? 200 : 140}} alt={cleanwalk.name} sizes="100vw" /> : 
                         <div className="flex justify-center justify-start items-center space-x-2 py-2 h-[140px]">
-                            <img src="/cleanway.png" className="h-[40px] w-[30px]"/>
+                            <Image src='/cleanway.png' width={30} height={40} alt='Cleanway' />                            
                             <Text text="Cleanway" variant="h2"/>
                         </div>
                     }                    
