@@ -39,9 +39,7 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
     }
 
     return NextResponse.json({
-        spot: {
-            spot
-      },
+        spot
     });
 
   } catch (error) {
@@ -66,47 +64,62 @@ export async function DELETE(req: NextRequest, { params }: { params: { id: strin
   }
 
   try {
-    const cleanwalk = await prisma.cleanWalk.findUnique({
+    const spot = await prisma.spot.findUnique({
       where: {
         id: params.id as string,
       },
     });
 
-    if (!cleanwalk) {
+    if (!spot) {
       return NextResponse.json({
-        message: "article not found"
+        message: "spot not found"
       }, {
         status: 404
       })
     }
 
-    if (session.user.role === Roles.AMDIN || session.user.id !== cleanwalk.authorId) {
+    if (session.user.role === Roles.AMDIN || session.user.id !== spot.authorId || session.user.role === Roles.MODERATOR) {
         return NextResponse.json({
             message: "Unauthorized"
         }, {
             status: 401
         })
         }
+        
+        const trashIds = await prisma.spotTrash.findMany({
+            where: {
+                spotId: spot.id
+            }
+        });
+    
+        await prisma.spotTrash.deleteMany({
+            where: {
+                spotId: spot.id
+            }
+        });
 
-    await prisma.cleanWalkParticipant.deleteMany({
-        where: {
-            cleanWalkId: cleanwalk.id
+        for (const trashId of trashIds) {
+            await prisma.trash.delete({
+                where: {
+                    id: trashId.trashId
+                }
+            });
         }
 
-    });
+        await prisma.spot.deleteMany({
+            where: {
+                id: spot.id
+            }
 
-    await prisma.cleanWalk.delete({
-        where: {
-            id: params.id as string,
-        },
-    });
+        });
+    
 
     return new Response(null, {
       status: 204,
     });
   } catch (error) {
     return NextResponse.json({
-      message: "cleanwalk not found"
+      message: "spot not found"
     }, {
       status: 404
     })
@@ -125,21 +138,21 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
   }
 
   try {
-    const cleanwalk = await prisma.cleanWalk.findUnique({
+    const spot = await prisma.spot.findUnique({
       where: {
         id: params.id as string,
       },
     });
 
-    if (!cleanwalk) {
+    if (!spot) {
       return NextResponse.json({
-        message: "article not found"
+        message: "spot not found"
       }, {
         status: 404
       })
     }
 
-    if (session.user.role === Roles.AMDIN || session.user.id !== cleanwalk.authorId || session.user.role === Roles.MODERATOR) {
+    if (session.user.role === Roles.AMDIN || session.user.id !== spot.authorId || session.user.role === Roles.MODERATOR) {
         return NextResponse.json({
             message: "Unauthorized"
         }, {
@@ -147,31 +160,26 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
         })
         }
 
-    const { description, longitude, latitude, name, startAt, endAt, bannerImage } = await req.json();
+    const { description, access } = await req.json();
 
-    await prisma.cleanWalk.update({
+    await prisma.spot.update({
       where: {
         id: params.id as string,
       },
       data: {
         description,
-        longitude,
-        latitude,
-        startAt,
-        endAt,
-        name,
-        bannerImage,
+        access,
       },
     });
 
     return NextResponse.json({
-      message: "cleanwalk updated"
+      message: "spot updated"
     }, {
       status: 200
     });
   } catch (error) {
     return NextResponse.json({
-      message: "cleanwalk not found"
+      message: "spot not found"
     }, {
       status: 404
     })

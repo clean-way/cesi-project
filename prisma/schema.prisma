@@ -89,7 +89,6 @@ model DumpQuantitiesTrash {
 model Trash {
   id                  String                @id @default(cuid())
   name                String
-  imageUri            String
   spotTrash           SpotTrash[]
   dumpQuantitiesTrash DumpQuantitiesTrash[]
 }
