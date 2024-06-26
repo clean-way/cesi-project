@@ -5,6 +5,7 @@ import { Text } from "@/components/common/display/Texts";
 import UserAvatar from "../common/display/UserAvatar";
 import { useEffect, useState } from "react";
 import { User } from "@prisma/client";
+import Link from "next/link";
 
 async function getAuthorInfos(id: string) : Promise<any>{
     try {
@@ -28,7 +29,7 @@ async function getAuthorInfos(id: string) : Promise<any>{
     }
 }
 
-export default function ArticleCard({title, body, date, authorId} : {title: string, body: string, date: Date, authorId?: string}){
+export default function ArticleCard({title, body, date, authorId,id} : {title: string, body: string, date: Date, authorId?: string, id?: string}){
 
     const [author, setAuthor] = useState<User | null>(null);
     
@@ -41,25 +42,28 @@ export default function ArticleCard({title, body, date, authorId} : {title: stri
     }, []);
 
     return(
-        <Card className="xl:w-[45%] xl:min-w-[45%] w-full p-4 flex flex-col">
-            <div className="flex flex-col xl:flex-row xl:justify-between">
-                <Text text={title} fontWeight="bold"/>
-                <Text text={`${new Date(date).toLocaleDateString()}`} variant="small"/>
-            </div>            
-            
-                {
-                    author ?  
-                    <div className="flex space-x-2 items-center">
-                        <Text text="Ecrit par "/>
-                        <Text text={author.name ?? ''} fontWeight="semibold"/>
-                        <div className="size-[30px]">
-                            <UserAvatar username={author.name ?? ''} source={author.image ?? ''} />
-                        </div> 
-                    </div>
-                    : <></>
-                }
+        <Link href={id ? `/articles/${id}` : '#'} className="xl:w-[45%] xl:min-w-[45%] w-full">
+            <Card className="p-4 flex flex-col">
+                <div className="flex flex-col xl:flex-row xl:justify-between">
+                    <Text text={title} fontWeight="bold"/>
+                    <Text text={`${new Date(date).toLocaleDateString()}`} variant="small"/>
+                </div>            
                 
-            <Text text={body}/>
-        </Card>
+                    {
+                        author ?  
+                        <div className="flex space-x-2 items-center">
+                            <Text text="Ecrit par "/>
+                            <Text text={author.name ?? ''} fontWeight="semibold"/>
+                            <div className="size-[30px]">
+                                <UserAvatar username={author.name ?? ''} source={author.image ?? ''} />
+                            </div> 
+                        </div>
+                        : <></>
+                    }
+                    
+                <Text text={body}/>
+            </Card>        
+        </Link>
+        
     );
 }
