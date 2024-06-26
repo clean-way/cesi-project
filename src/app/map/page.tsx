@@ -1,8 +1,10 @@
 "use client";
 import React, { useState } from "react";
-import ReactMapGL, { NavigationControl } from "react-map-gl";
+import ReactMapGL, { Marker, NavigationControl } from "react-map-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import LocationMarker from "./LocationMarker";
+import NewSpot from "./NewSpot";
+import TrashMarkers from "./TrashMarkers";
 
 const MAPBOX_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
 
@@ -14,6 +16,7 @@ function MapPage() {
   });
   const [autoFocus, setAutoFocus] = useState(true);
   const [GPSActivated, setGPSActivated] = useState(true);
+  const [disabledForZoom, setDisabledForZoom] = useState(false);
 
   const handleRecenter = () => {
     setAutoFocus(true);
@@ -26,11 +29,24 @@ function MapPage() {
         onMove={(evt) => setviewState(evt.viewState as any)}
         mapStyle="mapbox://styles/mapbox/streets-v11"
         mapboxAccessToken={MAPBOX_TOKEN}
+        maxZoom={20}
+        minZoom={15}
+        pitch={0}
+        onMoveEnd={() => console.log(viewState)}
+        onDrag={() => setAutoFocus(false)}
+        onZoomStart={() => setDisabledForZoom(true)}
+        onZoomEnd={() => setDisabledForZoom(false)}
       >
         <div style={{ position: "absolute", right: 10, top: 10 }}>
           <NavigationControl />
         </div>
-        <LocationMarker autoFocus={autoFocus} setAutoFocus={setAutoFocus} GPSActivated={GPSActivated} setGPSActivated={setGPSActivated} />
+        <LocationMarker
+          autoFocus={autoFocus}
+          GPSActivated={GPSActivated}
+          setGPSActivated={setGPSActivated}
+          disabledForZoom={disabledForZoom}
+        />
+        <TrashMarkers />
       </ReactMapGL>
       {!autoFocus && (
         <button
@@ -45,23 +61,23 @@ function MapPage() {
             borderRadius: "5px",
             cursor: "pointer",
             boxShadow: "0 2px 6px rgba(0,0,0,0.3)",
-            zIndex: 1000,
+            zIndex: 50,
           }}
         >
           Recenter
         </button>
       )}
-      {
-        GPSActivated ? null : (
-          <div className="absolute h-full w-full bg-black bg-opacity-50 z-[100] top-0 left-0">
-          <div 
-          className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center text-white"
-          >
-            <p>Veuillez activer la géolocalisation pour utiliser cette fonctionnalité.</p>
+      <NewSpot />
+      {GPSActivated ? null : (
+        <div className="absolute h-full w-full bg-black bg-opacity-50 z-[100] top-0 left-0">
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center text-white">
+            <p>
+              Veuillez activer la géolocalisation pour utiliser cette
+              fonctionnalité.
+            </p>
           </div>
-          </div>
-        )
-      }
+        </div>
+      )}
     </div>
   );
 }
