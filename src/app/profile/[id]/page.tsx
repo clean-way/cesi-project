@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import ProfilePageContent from "./ProfilePageContent";
 import Header from "@/components/common/Header";
 import { useRouter } from "next/navigation";
+import NeedAuthButton from "@/components/common/NeedAuthButton";
 
 export default function ProfilePage({params}: {params: {id : string}}){
     const {id} = params;
@@ -42,7 +43,7 @@ export default function ProfilePage({params}: {params: {id : string}}){
     }, []);
 
     if(error){
-        useRouter().push('/auth/signin');
+        return <NeedAuthButton/>;
     }
 
     if(!user){

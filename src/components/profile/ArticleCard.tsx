@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { User } from "@prisma/client";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import NeedAuthButton from "../common/NeedAuthButton";
 
 export default function ArticleCard({title, body, date, authorId,id} : {title: string, body: string, date: Date, authorId?: string, id?: string}){
 
@@ -45,7 +46,7 @@ export default function ArticleCard({title, body, date, authorId,id} : {title: s
     }, []);    
     
     if(error){
-        useRouter().push('/auth/signin');
+        return <NeedAuthButton/>;
     }
 
     return(

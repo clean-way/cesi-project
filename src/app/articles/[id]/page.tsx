@@ -6,6 +6,7 @@ import { Articles, User } from "@prisma/client";
 import UserAvatar from "@/components/common/display/UserAvatar";
 import { useRouter } from "next/navigation";
 import Header from "@/components/common/Header";
+import NeedAuthButton from "@/components/common/NeedAuthButton";
 
 export default function ArticlePage({params} : {params: {id : string}}){
 
@@ -71,7 +72,7 @@ export default function ArticlePage({params} : {params: {id : string}}){
     }, []);
 
     if(error){
-        useRouter().push('/auth/signin');
+        return <NeedAuthButton/>;
     }
 
     if(!article || !author){

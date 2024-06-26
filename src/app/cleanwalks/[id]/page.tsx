@@ -7,6 +7,7 @@ import UserAvatar from "@/components/common/display/UserAvatar";
 import CleanwalkCard from "@/components/cleanwalks/CleanwalkCard";
 import { useRouter } from "next/navigation";
 import Header from "@/components/common/Header";
+import NeedAuthButton from "@/components/common/NeedAuthButton";
 
 export default function CleanwalkPage({params} : {params: {id : string}}){
 
@@ -46,7 +47,7 @@ export default function CleanwalkPage({params} : {params: {id : string}}){
     }, []);
 
     if(error){
-        useRouter().push('/auth/signin');
+        return <NeedAuthButton/>;
     }
 
     if(!cleanwalk){
