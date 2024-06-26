@@ -7,34 +7,34 @@ import { useEffect, useState } from "react";
 import { User } from "@prisma/client";
 import Link from "next/link";
 
-async function getAuthorInfos(id: string) : Promise<any>{
-    try {
-        const rawResponse = await fetch(`${process.env.NEXT_PUBLIC_NEXTAPI_URL}/user/${id}`,
-        {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            }
-        });
-
-        if (!rawResponse.ok) {
-            console.log(rawResponse);
-
-            throw new Error('Failed to fetch data');
-        }
-
-        return await rawResponse.json();
-    } catch (err) {
-        throw err;
-    }
-}
-
 export default function ArticleCard({title, body, date, authorId,id} : {title: string, body: string, date: Date, authorId?: string, id?: string}){
 
     const [author, setAuthor] = useState<User | null>(null);
     
     useEffect(() => {
-        if(authorId){
+        async function getAuthorInfos(id: string) : Promise<any>{
+            try {
+                const rawResponse = await fetch(`${process.env.NEXT_PUBLIC_NEXTAPI_URL}/user/${id}`,
+                {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                });
+        
+                if (!rawResponse.ok) {
+                    console.log(rawResponse);
+        
+                    throw new Error('Failed to fetch data');
+                }
+        
+                return await rawResponse.json();
+            } catch (err) {
+                throw err;
+            }
+        }
+        
+        if(authorId){            
             getAuthorInfos(authorId).then((value) => {
                 setAuthor(value.user);
             });

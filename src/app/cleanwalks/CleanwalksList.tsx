@@ -8,7 +8,7 @@ export default function CleanwalksList({cleanwalks} : {cleanwalks : Array<CleanW
         <div className="w-full flex flex-wrap justify-start items-start gap-4">
             {cleanwalks.length > 0 ? 
                 cleanwalks.map((cleanwalk) => 
-                <CleanwalkCard cleanwalk={cleanwalk} /> ) : 
+                <CleanwalkCard key={cleanwalk.id} cleanwalk={cleanwalk} /> ) : 
                 <div className="w-full flex justify-center py-4">
                     <Text text='Aucune cleanwalks à venir pour le moment' italic/>
                 </div>
