@@ -26,7 +26,7 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
           include: {
             user: true
           }
-          
+
         }
       }
     });
@@ -40,18 +40,18 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
     }
 
     const removeSensitiveFields = (user: any) => {
-        const { email, password, longitude, latitude, role, emailVerified, createdAt, updatedAt, ...safeUser } = user;
-        return safeUser;
-      };
-      
-      cleanWalk.cleanWalkParticipant = cleanWalk.cleanWalkParticipant.map(participant => {
-        participant.user = removeSensitiveFields(participant.user);
-        return participant;
-      });
+      const { email, password, longitude, latitude, role, emailVerified, createdAt, updatedAt, ...safeUser } = user;
+      return safeUser;
+    };
+
+    cleanWalk.cleanWalkParticipant = cleanWalk.cleanWalkParticipant.map(participant => {
+      participant.user = removeSensitiveFields(participant.user);
+      return participant;
+    });
 
     return NextResponse.json({
-        cleanWalk: {
-            cleanWalk
+      cleanWalk: {
+        ...cleanWalk
       },
     });
   } catch (error) {
@@ -91,24 +91,24 @@ export async function DELETE(req: NextRequest, { params }: { params: { id: strin
     }
 
     if (session.user.role === Roles.AMDIN || session.user.id !== cleanwalk.authorId) {
-        return NextResponse.json({
-            message: "Unauthorized"
-        }, {
-            status: 401
-        })
-        }
+      return NextResponse.json({
+        message: "Unauthorized"
+      }, {
+        status: 401
+      })
+    }
 
     await prisma.cleanWalkParticipant.deleteMany({
-        where: {
-            cleanWalkId: cleanwalk.id
-        }
+      where: {
+        cleanWalkId: cleanwalk.id
+      }
 
     });
 
     await prisma.cleanWalk.delete({
-        where: {
-            id: params.id as string,
-        },
+      where: {
+        id: params.id as string,
+      },
     });
 
     return new Response(null, {
@@ -150,12 +150,12 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
     }
 
     if (session.user.role === Roles.AMDIN || session.user.id !== cleanwalk.authorId || session.user.role === Roles.MODERATOR) {
-        return NextResponse.json({
-            message: "Unauthorized"
-        }, {
-            status: 401
-        })
-        }
+      return NextResponse.json({
+        message: "Unauthorized"
+      }, {
+        status: 401
+      })
+    }
 
     const { description, longitude, latitude, name, startAt, endAt, bannerImage } = await req.json();
 
