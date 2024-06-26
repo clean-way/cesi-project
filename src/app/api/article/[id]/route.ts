@@ -31,8 +31,8 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
     }
 
     return NextResponse.json({
-        article: {
-            article
+      article: {
+        ...article
       },
     });
   } catch (error) {
@@ -72,12 +72,12 @@ export async function DELETE(req: NextRequest, { params }: { params: { id: strin
     }
 
     if (session.user.role === Roles.WRITER && session.user.id !== article.authorId) {
-        return NextResponse.json({
-            message: "Unauthorized"
-        }, {
-            status: 401
-        })
-        }
+      return NextResponse.json({
+        message: "Unauthorized"
+      }, {
+        status: 401
+      })
+    }
 
 
     await prisma.articles.delete({
