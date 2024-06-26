@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/utils/db';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/utils/authOptions';
+import { Roles } from '@prisma/client';
 
 export async function GET(req: NextRequest) {
     const session = await getServerSession(authOptions);
@@ -41,6 +42,48 @@ export async function GET(req: NextRequest) {
             message: "Failed to fetch data"
         }, {
             status: 404
+        })
+    }
+}
+
+export async function POST(req: NextRequest) {
+    const session = await getServerSession(authOptions);
+
+    if (!session || session.user.role === Roles.USER) {
+        return NextResponse.json({
+            message: "Unauthorized"
+        }, {
+            status: 401
+        })
+    }
+
+    const { title, body, authorId } = await req.json();
+
+    if (!title || !body || !authorId) {
+        return NextResponse.json({
+            message: "Missing required fields"
+        }, {
+            status: 400
+        })
+    }
+
+    try {
+        const article = await prisma.articles.create({
+            data: {
+                title,
+                body,
+                authorId: session.user.id
+            }
+        });
+
+        return NextResponse.json({
+            article
+        });
+    } catch (error) {
+        return NextResponse.json({
+            message: "Failed to create article"
+        }, {
+            status: 500
         })
     }
 }
