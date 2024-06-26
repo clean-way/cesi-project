@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
     Drawer,
     DrawerClose,
@@ -35,6 +35,17 @@ function NewSpot({ position, trash, setTrash }: { position: [number, number] | n
       file: null,
       trashs: [{ name: "", quantity: "" }]
   });
+
+  useEffect(() => {
+    setFormData({
+        name: "",
+        description: "",
+        access: "",
+        file: null,
+        trashs: [{ name: "", quantity: "" }]
+    });
+}
+, [open]);
 
     const difficultyMapper = (value: string) => {
         switch (value) {

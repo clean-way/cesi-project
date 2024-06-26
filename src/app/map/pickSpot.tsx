@@ -19,7 +19,7 @@ type SpotWithTrash = Prisma.SpotGetPayload<{
 
 function PickSpot({ id, setSpot }: { id: string; setSpot: (spot: SpotWithTrash) => void }) {
     const [formData, setFormData] = useState({
-        file: null,
+        file: null as string | null,
         });
 
         const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
