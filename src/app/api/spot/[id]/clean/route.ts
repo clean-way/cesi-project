@@ -44,7 +44,7 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
             });
         }
 
-        if (!spot.completeCleaningAt !== null) {
+        if (spot.completeCleaningAt !== null) {
             return NextResponse.json({
                 message: "Spot already cleaned"
             }, {
@@ -84,20 +84,31 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
 
         stream.end(buffer);
 
-        await prisma.spot.update({
+        const spotUpdated = await prisma.spot.update({
             where: {
                 id: spot.id
             },
             data: {
                 completeCleaningAt: new Date(),
                 endPhotoUri: `https://storage.googleapis.com/cleanway-next/spots/${filename}`
+            },
+            include: {
+                spotTrash: {
+                    include: {
+                        trash: true
+                    }
+                }
             }
+        })
+
+
+        return NextResponse.json({
+            message: "Spot cleaned successfully",
+            spot: spotUpdated
         });
-
-
     } catch (error) {
         return NextResponse.json({
-            message: "Failed to create cleanWalk"
+            message: "An error occured"
         }, {
             status: 404
         });

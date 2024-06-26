@@ -87,8 +87,9 @@ export async function POST(req: NextRequest) {
     const access = formData.get('access')?.toString();
     const file = formData.get('file') as File;
     const trashs = formData.getAll('trashs') as string[];
-
+    console.log(trashs);
     if (!name || !description || !longitude || !latitude || !access || !file || !trashs) {
+        console.log(name, description, longitude, latitude, access, file, trashs);
         return NextResponse.json({
             message: "Missing required fields"
         }, {
@@ -179,7 +180,7 @@ export async function POST(req: NextRequest) {
             startPhotoUri: `https://storage.googleapis.com/cleanway-next/spots/${filename}`
         }
     });
-    
+
     for (const trash of trashsArray) {
             const trashid = await prisma.trash.create({
                 data: {
@@ -196,7 +197,8 @@ export async function POST(req: NextRequest) {
     }
 
     return NextResponse.json({
-        message: "Spot created and file uploaded"
+        message: "Spot created and file uploaded",
+        spot: spot
     }, {
         status: 201
     });

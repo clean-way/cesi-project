@@ -7,38 +7,40 @@ import Image from "next/image";
 function LocationMarker({
   autoFocus,
   setGPSActivated,
-  disabledForZoom
+  disabledForZoom,
+  userPosition,
+  setUserPosition,
 }: {
   autoFocus: boolean;
   setGPSActivated: (GPSActivated: boolean) => void;
   disabledForZoom: boolean;
+  userPosition: [number, number] | null;
+  setUserPosition: (position: [number, number] | null) => void;
 }) {
-  const [position, setPosition] = useState<[number, number] | null>(null);
   const { current: map } = useMap();
 
   useEffect(() => {
     if (!navigator.geolocation) {
       setGPSActivated(false);
     } else {
-      setGPSActivated(false);
       const watchId = navigator.geolocation.watchPosition(
         (actualPosition) => {
           setGPSActivated(true);
           const { latitude, longitude } = actualPosition.coords;
-
+          
           if (!disabledForZoom) {
-            if (autoFocus && position === null) {
+            if (autoFocus && userPosition === null) {
               map!.flyTo({
                 center: [longitude, latitude],
-                zoom: 15,
-                speed: 100,
+                zoom: map?.getZoom(),
+                animate: false,
               })
             } else if (autoFocus) {
               map!.flyTo({ center: [longitude, latitude], zoom: map?.getZoom(), speed: 1 });
             }
           }
           
-          setPosition([longitude, latitude]);
+          setUserPosition([longitude, latitude]);
         },
         (error) => {
           setGPSActivated(false);
@@ -50,8 +52,8 @@ function LocationMarker({
     }
   }, [map, autoFocus]);
 
-  return position === null ? null : (
-    <Marker longitude={position[0]} latitude={position[1]}>
+  return userPosition === null ? null : (
+    <Marker longitude={userPosition[0]} latitude={userPosition[1]}>
       <Image
         src="/user.png"
         alt="User Marker"

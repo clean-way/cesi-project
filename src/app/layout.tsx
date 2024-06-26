@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import SessionProvider from "@/components/SessionProvider";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/utils/authOptions";
+import Header from "@/components/common/Header";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -32,6 +33,7 @@ export default async function RootLayout({
         )}
       >
         <SessionProvider session={session}>
+        <Header />
         {children}
         </SessionProvider>
       </body>

@@ -30,13 +30,13 @@ export default function Header() {
                         ) : (
                         <ul className="flex space-x-4 items-center">
                             <li>
-                                <p>
-                                    {session.user.email}
-                                </p>
+                                <Link href="/map">
+                                    Carte
+                                </Link>
                             </li>
                             <li>
-                                <Link href="/dashboard">
-                                    Dashboard
+                                <Link href="/cleanwalk">
+                                    Cleanwalk
                                 </Link>
                             </li>
                             <li>
