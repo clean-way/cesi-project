@@ -6,10 +6,13 @@ import UserAvatar from "../common/display/UserAvatar";
 import { useEffect, useState } from "react";
 import { User } from "@prisma/client";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function ArticleCard({title, body, date, authorId,id} : {title: string, body: string, date: Date, authorId?: string, id?: string}){
 
     const [author, setAuthor] = useState<User | null>(null);
+
+    const [error, setError] = useState<boolean>(false);
     
     useEffect(() => {
         async function getAuthorInfos(id: string) : Promise<any>{
@@ -30,7 +33,7 @@ export default function ArticleCard({title, body, date, authorId,id} : {title: s
         
                 return await rawResponse.json();
             } catch (err) {
-                throw err;
+                setError(true);
             }
         }
         
@@ -39,7 +42,11 @@ export default function ArticleCard({title, body, date, authorId,id} : {title: s
                 setAuthor(value.user);
             });
         }
-    }, []);
+    }, []);    
+    
+    if(error){
+        useRouter().push('/auth/signin');
+    }
 
     return(
         <Link href={id ? `/articles/${id}` : '#'} className="xl:w-[45%] xl:min-w-[45%] w-full">
