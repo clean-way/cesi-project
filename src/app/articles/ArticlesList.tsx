@@ -13,6 +13,7 @@ export default function ArticlesList({articles} : {articles : Array<Articles>}){
                     body={article.body} 
                     date={article.createdAt}
                     authorId={article.authorId}
+                    id={article.id}
                     />) : 
                 <div className="w-full flex justify-center py-4">
                     <Text text='Aucun article dans cette catégorie' italic/>
