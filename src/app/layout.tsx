@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Onest as FontSans } from "next/font/google";
 import "@/styles/globals.css";
 import { cn } from "@/lib/utils";
@@ -14,8 +14,27 @@ const fontSans = FontSans({
 
 export const metadata: Metadata = {
   title: "Cleanway",
-  description: "Cleanway's description",
+  description: "Application de nettoyage de ville",
+  generator: "Next.js",
+  manifest: "/manifest.json",
+  keywords: ["cleanway", "clean", "way", "ville", "city", "nettoyage"],
+  authors: [
+    { name: "Théo Truvelot" },
+    { name: "Kévin Morainville" },
+    { name: "Alan Courtois" },
+  ],
+  icons: [
+    { rel: "apple-touch-icon", url: "/icons/icon-512x512.png" },
+    { rel: "icon", url: "/icons/icon-512x512.png" },
+  ],
 };
+
+export const viewport: Viewport = {
+  userScalable: false,
+  width: "device-width",
+  initialScale: 1.0,
+  maximumScale: 1.0,
+}
 
 export default async function RootLayout({
   children,
@@ -26,7 +45,6 @@ export default async function RootLayout({
 
   return (
     <html lang="fr">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
       <body
         className={cn(
           "min-h-screen bg-background font-sans antialiased touch-none",

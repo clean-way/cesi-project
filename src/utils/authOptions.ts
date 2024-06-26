@@ -5,11 +5,12 @@ import AppleProvider from "next-auth/providers/apple";
 import GoogleProvider from "next-auth/providers/google";
 import { PrismaAdapter } from "@auth/prisma-adapter"
 import db from "@/utils/db";
-import type { Adapter } from 'next-auth/adapters';
-import { Session, SessionStrategy, TokenSet } from "next-auth";
-import { Roles, User } from "@prisma/client";
+import type { Adapter, AdapterUser } from 'next-auth/adapters';
+import { AuthOptions, Session, SessionStrategy, TokenSet, User } from "next-auth";
+import { Roles } from "@prisma/client";
+import { JWT } from "next-auth/jwt";
 
-export const authOptions = {
+export const authOptions : AuthOptions = {
     pages: {
         signIn: "/auth/signin",
         signOut: "/auth/signout",
@@ -90,7 +91,7 @@ export const authOptions = {
     },
     session: { strategy: "jwt" as SessionStrategy},
     callbacks: {
-        async jwt({ token, user } : { token: TokenSet, user: User }) {
+        async jwt({ token, user } : { token: JWT, user: User | AdapterUser }) {
             if(user){
                 token.role = user.role
                 token.userId = user.id
@@ -107,4 +108,4 @@ export const authOptions = {
         }
     },
     secret: process.env.NEXTAUTH_SECRET
-};
+}
