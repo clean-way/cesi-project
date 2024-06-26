@@ -30,7 +30,7 @@ function MapPage() {
         mapStyle="mapbox://styles/mapbox/streets-v11"
         mapboxAccessToken={MAPBOX_TOKEN}
         maxZoom={20}
-        minZoom={15}
+        minZoom={1}
         pitch={0}
         onMoveEnd={() => console.log(viewState)}
         onDrag={() => setAutoFocus(false)}
