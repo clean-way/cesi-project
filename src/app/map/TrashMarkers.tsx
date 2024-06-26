@@ -17,27 +17,15 @@ import {
 import { Button } from "@/components/ui/button";
 
 function TrashMarkers() {
-    const [trash, setTrash] = useState([
-        {
-            id: 1,
-            latitude: 49.443356436997135,
-            longitude: 1.095199073585377,
-            description: "A lot of trash here",
-            access: "MOUNTAIN",
-        },
-        {
-            id: 2,
-            latitude: 48.866667,
-            longitude: 2.333333,
-        }
-    ] as Spot[]);
     const { current: map } = useMap();
+
+    const [trash, setTrash] = useState([] as Spot[]);
     
     useEffect(() => {
-        fetch("/api/trash")
+        fetch(`/api/spot?longitude=${map?.getCenter().lng}&latitude=${map?.getCenter().lat}`)
         .then((res) => res.json())
         .then((data) => {
-            setTrash(data);
+            console.log(data);
         });
     }, []);
     

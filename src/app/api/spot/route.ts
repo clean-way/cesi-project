@@ -50,6 +50,7 @@ export async function GET(req: NextRequest) {
             spots: spots
         });
     } catch (error) {
+        console.error(error);
         return NextResponse.json({
             message: "Failed to fetch data"
         }, {

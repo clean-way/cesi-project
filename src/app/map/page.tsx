@@ -42,7 +42,6 @@ function MapPage() {
         </div>
         <LocationMarker
           autoFocus={autoFocus}
-          GPSActivated={GPSActivated}
           setGPSActivated={setGPSActivated}
           disabledForZoom={disabledForZoom}
         />

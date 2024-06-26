@@ -6,12 +6,10 @@ import Image from "next/image";
 
 function LocationMarker({
   autoFocus,
-  GPSActivated,
   setGPSActivated,
   disabledForZoom
 }: {
   autoFocus: boolean;
-  GPSActivated: boolean;
   setGPSActivated: (GPSActivated: boolean) => void;
   disabledForZoom: boolean;
 }) {
@@ -34,7 +32,7 @@ function LocationMarker({
                 center: [longitude, latitude],
                 zoom: 15,
                 speed: 100,
-              });
+              })
             } else if (autoFocus) {
               map!.flyTo({ center: [longitude, latitude], zoom: map?.getZoom(), speed: 1 });
             }
