@@ -10,9 +10,13 @@ export async function middleware(req: NextRequest) {
     return NextResponse.redirect(new URL('/', req.url));
   }
 
+  // if(!token && pathname === '/map') {
+  //   return NextResponse.redirect(new URL('/auth/signin', req.url));
+  // }
+
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ['/auth/signin', '/auth/signup'],
+  matcher: ['/auth/signin', '/auth/signup', '/map']
 };
