@@ -6,17 +6,16 @@ import Image from "next/image";
 
 function LocationMarker({
   autoFocus,
-  setAutoFocus,
   GPSActivated,
   setGPSActivated,
+  disabledForZoom
 }: {
   autoFocus: boolean;
-  setAutoFocus: (autoFocus: boolean) => void;
   GPSActivated: boolean;
   setGPSActivated: (GPSActivated: boolean) => void;
+  disabledForZoom: boolean;
 }) {
   const [position, setPosition] = useState<[number, number] | null>(null);
-  const [disabledForZoom, setDisabledForZoom] = useState(false);
   const { current: map } = useMap();
 
   useEffect(() => {
@@ -52,18 +51,6 @@ function LocationMarker({
       return () => navigator.geolocation.clearWatch(watchId);
     }
   }, [map, autoFocus]);
-
-  map?.on("drag", () => {
-    setAutoFocus(false);
-  });
-
-  map?.on("zoomstart", () => {
-    setDisabledForZoom(true);
-  });
-
-  map?.on("zoomend", () => {
-    setDisabledForZoom(false);
-  });
 
   return position === null ? null : (
     <Marker longitude={position[0]} latitude={position[1]}>
