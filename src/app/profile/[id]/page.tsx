@@ -40,7 +40,7 @@ export default function ProfilePage({params}: {params: {id : string}}){
         getUser(id).then((value) => {
             setUser(value.user);
         });
-    }, []);
+    }, [id]);
 
     if(error){
         return <NeedAuthButton/>;

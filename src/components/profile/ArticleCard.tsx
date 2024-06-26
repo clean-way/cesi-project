@@ -43,7 +43,7 @@ export default function ArticleCard({title, body, date, authorId,id} : {title: s
                 setAuthor(value.user);
             });
         }
-    }, []);    
+    }, [id]);    
     
     if(error){
         return <NeedAuthButton/>;

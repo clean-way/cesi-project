@@ -44,7 +44,7 @@ export default function CleanwalkPage({params} : {params: {id : string}}){
             setCleanwalk(value.cleanWalk);
         });
         
-    }, []);
+    }, [id]);
 
     if(error){
         return <NeedAuthButton/>;
