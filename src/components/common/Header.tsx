@@ -4,7 +4,6 @@ import Link from "next/link";
 import { Text } from "@/components/common/display/Texts";
 import Image from "next/image";
 import PrimaryButton from "@/components/common/buttons/PrimaryButton";
-import Image from "next/image";
 import { MenuIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 
