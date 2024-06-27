@@ -60,6 +60,28 @@ export default function CleanwalkCard({
         }
     }
 
+    const leaveCleanwalk = async (id: string) => {
+        try {
+            const rawResponse = await fetch(`${process.env.NEXT_PUBLIC_NEXTAPI_URL}/cleanwalk/${id}/leave`,
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            });
+
+            if (!rawResponse.ok) {
+                console.log(rawResponse);
+
+                throw new Error('Failed to fetch data');
+            }
+
+            window.location.reload();
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
   const formattedDate = `${startDate.toTimeString().slice(0, 5)} à ${endDate
     .toTimeString()
     .slice(0, 5)}`;
@@ -128,10 +150,13 @@ export default function CleanwalkCard({
               ) : (
                 <Text text="Aucun participant pour le moment" variant="small" />
               )}
-
-              <Button className="mt-2" onClick={() => joinCleanwalk(cleanwalk.id)} disabled={cleanwalk.cleanWalkParticipant.map(x => x.user.id).includes(session?.data?.user.id!)}>{
-                    cleanwalk.cleanWalkParticipant.map(x => x.user.id).includes(session?.data?.user.id!) ? "Vous participez déjà" : "Participer"
-                }</Button>
+            {cleanwalk.cleanWalkParticipant.map(x => x.user.id).includes(session?.data?.user.id!) ?
+                <Button variant={"destructive"} className="mt-2" onClick={() => leaveCleanwalk(cleanwalk.id)}>
+                    Quitter
+                </Button>
+                :  <Button className="mt-2" onClick={() => joinCleanwalk(cleanwalk.id)}>
+                    Participer
+                </Button>}
             </div>
           ) : null}
           <div className="flex justify-between pt-4">
