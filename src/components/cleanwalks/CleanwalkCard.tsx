@@ -5,9 +5,12 @@ import Image from "next/image";
 import Link from "next/link";
 
 export default function CleanwalkCard({cleanwalk, fullSize} : {cleanwalk : CleanWalk, fullSize?: boolean}){  
-    const startDate = new Date(cleanwalk.startAt); 
+    const startDate = new Date(cleanwalk.startAt);
+    startDate.setHours(startDate.getHours() + 2);
     const endDate = new Date(cleanwalk.endAt); 
-    const formattedDate = `${startDate.getUTCHours()}:${startDate.getUTCMinutes()} | ${endDate.getUTCHours()}:${endDate.getUTCMinutes()}`;
+    endDate.setHours(endDate.getHours() + 2);
+
+    const formattedDate = `${startDate.toTimeString().slice(0,5)} à ${endDate.toTimeString().slice(0,5)}`;
     return(
         <Link href={`/cleanwalks/${cleanwalk.id}`} className={`${!fullSize ? 'xl:w-[20%] xl:min-w-[20%]' : ''} w-full`}>
             <Card>

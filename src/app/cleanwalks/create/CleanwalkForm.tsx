@@ -1,7 +1,6 @@
 "use client";
-import { signIn } from "next-auth/react";
 import { useState, useEffect } from "react";
-import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Card } from "@/components/common/Card";
 import Formfield from "@/components/common/inputs/Formfield";
 import PrimaryButton from "@/components/common/buttons/PrimaryButton";
@@ -10,12 +9,16 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import Textarea from "@/components/common/inputs/TextArea";
-import { FormDatePicker } from "@/components/common/inputs/DatePickers";
+import { DateTimePicker } from "@/components/ui/date-time-picker";
 
 const formSchema = z.object({
     name: z
     .string({ required_error: "Le nom est requis" }),    
     description: z.string({ required_error: "La description est requise" }),
+    startDatetime: z.date().nullable(),
+    endDatetime: z.date().nullable(),
+    longitude: z.string().nullable(),
+    latitude: z.string().nullable(),
 });
 
 export const CleanwalkForm = () => {
@@ -29,7 +32,27 @@ export const CleanwalkForm = () => {
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         setLoading(true);
 
-    // TODO : Create cleanwalk
+        const response = await fetch("/api/cleanwalk", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                name: values.name,
+                description: values.description,
+                startAt: values.startDatetime,
+                endAt: values.endDatetime,
+                longitude: values.longitude,
+                latitude: values.latitude,
+            }),
+        });
+
+        if (response.ok) {
+            window.location.href = "/cleanwalks";
+        } else {
+            const data = await response.json();
+            setError(errors[data.message] || "Une erreur s'est produite");
+        }
 
     setLoading(false);
     };  
@@ -62,7 +85,63 @@ export const CleanwalkForm = () => {
                             </FormItem>
                         )}
                     />
-                    <FormDatePicker name="startDate" control={form.control} label="Date de la cleanwalk"/>
+
+                    <FormField
+                        control={form.control}
+                        name="startDatetime"
+                        render={({ field } : {field : any}) => (
+                            <FormItem>
+                                <FormLabel>Date de début</FormLabel>
+                                <FormControl>
+                                <DateTimePicker granularity="minute" hourCycle={24} jsDate={field.value} onJsDateChange={field.onChange} />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+
+                    <FormField
+                        control={form.control}
+                        name="endDatetime"
+                        render={({ field } : {field : any}) => (
+                            <FormItem>
+                                <FormLabel>Date de fin</FormLabel>
+                                <FormControl>
+                                <DateTimePicker granularity="minute" hourCycle={24} jsDate={field.value} onJsDateChange={field.onChange} />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+
+                    <FormField
+                        control={form.control}
+                        name="latitude"
+                        render={({ field } : {field : any}) => (
+                            <FormItem>
+                                <FormLabel>Latitude</FormLabel>
+                                <FormControl>
+                                    <Formfield {...field} type="number" />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+
+                    <FormField
+                        control={form.control}
+                        name="longitude"
+                        render={({ field } : {field : any}) => (
+                            <FormItem>
+                                <FormLabel>Longitude</FormLabel>
+                                <FormControl>
+                                    <Formfield {...field} type="number" />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+
                     {
                         error && <div className="text-red-500 text-sm">{error}</div>
                     }

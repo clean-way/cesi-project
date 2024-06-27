@@ -55,7 +55,7 @@ export default function CleanwalkPage({params} : {params: {id : string}}){
     }
     
     return(
-        <section className="bg-ct-blue-600 min-h-screen xl:py-10 xl:px-24">
+        <section className="bg-ct-blue-600 min-h-screen xl:py-10 xl:px-24 m-2">
             <CleanwalkCard cleanwalk={cleanwalk} fullSize/>
         </section>
     );

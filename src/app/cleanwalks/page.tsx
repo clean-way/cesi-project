@@ -41,7 +41,7 @@ export default function CleanwalksPage(){
     
     return(
         <section className="bg-ct-blue-600 min-h-screen xl:py-10 xl:px-5">
-            <Card className="container mx-auto p-8 xl:p-12 h-full flex flex-col justify-center space-y-5">
+            <Card className="mx-auto p-8 xl:p-12 h-full flex flex-col justify-center space-y-5">
                 <div className="space-y-8">
                     <div className="flex flex-wrap justify-center xl:justify-start items-center gap-x-1">
                         <Text text="Vous voulez organiser une cleanwalk ?"/>

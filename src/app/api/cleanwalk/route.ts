@@ -58,7 +58,7 @@ export async function POST(req: NextRequest) {
 
     const { name, description, startAt, endAt, longitude, latitude, bannerImage  } = await req.json();
 
-    if (!name || !description || !startAt || !endAt || !longitude || !latitude || !bannerImage) {
+    if (!name || !description || !startAt || !endAt || !longitude || !latitude) {
         return NextResponse.json({
             message: "Missing required fields"
         }, {
@@ -73,8 +73,8 @@ export async function POST(req: NextRequest) {
                 description,
                 startAt,
                 endAt,
-                longitude,
-                latitude,
+                longitude : parseFloat(longitude),
+                latitude : parseFloat(latitude),
                 bannerImage,
                 authorId: session.user.id
             }
@@ -84,6 +84,7 @@ export async function POST(req: NextRequest) {
             cleanWalk: cleanWalk
         });
     } catch (error) {
+        console.log(error);
         return NextResponse.json({
             message: "Failed to create cleanWalk"
         }, {
