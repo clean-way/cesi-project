@@ -6,10 +6,15 @@ import Image from "next/image";
 import PrimaryButton from "@/components/common/buttons/PrimaryButton";
 import { MenuIcon } from "lucide-react";
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
+import OutlineButton from "./buttons/OutlineButton";
+import { Button } from "../ui/button";
 
 export default function Header() {
   const { data: session } = useSession();
     const [open, setOpen] = useState(false);
+
+    const URL = usePathname();
 
     useEffect(() => {
         const handleClickOutside = (e: MouseEvent) => {
@@ -42,26 +47,35 @@ export default function Header() {
           <nav className="sm:flex hidden">
             {!session?.user ? (
               <ul className="flex space-x-4">
-                <li>
-                  <Link href="/auth/signin">Se connecter</Link>
+                <li className="flex items-center">
+                  <Link href="/articles" className={(URL.endsWith("/articles") ? "text-primary font-bold" : "")}>
+                    Articles
+                  </Link>
                 </li>
                 <li>
-                  <Link href="/auth/signup">S&apos;inscrire</Link>
+                  <Link href="/auth/signin">
+                    <Button variant={"outline"}>Se connecter</Button>
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/auth/signup">
+                    <PrimaryButton>S&apos;inscrire</PrimaryButton>
+                  </Link>
                 </li>
               </ul>
             ) : (
               <ul className="flex space-x-4 items-center">
                 <li>
-                  <Link href="/map">Carte</Link>
+                  <Link href="/map" className={URL.endsWith("/map") ? "text-primary font-bold" : ""}>Carte</Link>
                 </li>
                 <li>
-                  <Link href="/cleanwalks">Cleanwalk</Link>
+                  <Link href="/cleanwalks" className={URL.endsWith("/cleanwalks") ? "text-primary font-bold" : ""}>Cleanwalk</Link>
                 </li>
                 <li>
-                  <Link href="/articles">Articles</Link>
+                  <Link href="/articles" className={URL.endsWith("/articles") ? "text-primary font-bold" : ""}>Articles</Link>
                 </li>                
                 <li>
-                  <Link href={`/profile/${session.user.id}`}>Profil</Link>
+                  <Link href={`/profile/${session.user.id}`} className={URL.endsWith(`/profile/${session.user.id}`) ? "text-primary font-bold" : ""}>Profil</Link>
                 </li>
                 <li>
                   <PrimaryButton onClick={() => signOut()}>
@@ -81,29 +95,34 @@ export default function Header() {
                 {!session?.user ? (
                   <>
                     <li>
-                      <Link href="/auth/signin">Se connecter</Link>
+                      <Link href="/articles" className={URL.endsWith(`/articles`) ? "text-primary font-bold" : ""}>Articles</Link>
                     </li>
                     <div className="border-b border-gray-100"></div>
-                    <li>
-                      <Link href="/auth/signup">S&apos;inscrire</Link>
+                    <li className="flex justify-center space-x-4">
+                      <Link href="/auth/signin">
+                        <Button variant={"outline"}>Se connecter</Button>
+                      </Link>
+                      <Link href="/auth/signup">
+                        <PrimaryButton>S&apos;inscrire</PrimaryButton>
+                      </Link>
                     </li>
                   </>
                 ) : (
                   <>
                     <li>
-                      <Link href="/map">Carte</Link>
+                      <Link href="/map" className={URL.endsWith(`/map`) ? "text-primary font-bold" : ""}>Carte</Link>
                     </li>
                     <div className="border-b border-gray-100"></div>
                     <li>
-                      <Link href="/cleanwalks">Cleanwalk</Link>
+                      <Link href="/cleanwalks" className={URL.endsWith(`/cleanwalks`) ? "text-primary font-bold" : ""}>Cleanwalk</Link>
                     </li>
                     <div className="border-b border-gray-100"></div>            
                     <li>
-                      <Link href="/articles">Articles</Link>
+                      <Link href="/articles" className={URL.endsWith(`/articles`) ? "text-primary font-bold" : ""}>Articles</Link>
                     </li>
                     <div className="border-b border-gray-100"></div>               
                     <li>
-                      <Link href={`/profile/${session.user.id}`}>Profil</Link>
+                      <Link href={`/profile/${session.user.id}`} className={URL.endsWith(`/profile/${session.user.id}`) ? "text-primary font-bold" : ""}>Profil</Link>
                     </li>
                     <div className="border-b border-gray-100"></div>    
                     <li className="flex justify-center">

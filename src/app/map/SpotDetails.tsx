@@ -45,8 +45,8 @@ function SpotDetails({ spot, setSpot }: { spot: SpotWithTrash; setSpot: (spot: S
       <Image
           src={spot.startPhotoUri}
           alt="Spot photo"
-          width={300}
-          height={200}
+          width={150}
+          height={150}
         />
         <div>
           <h2
@@ -74,8 +74,8 @@ function SpotDetails({ spot, setSpot }: { spot: SpotWithTrash; setSpot: (spot: S
             <Image
               src={spot.endPhotoUri as string}
               alt="Spot photo"
-              width={300}
-              height={200}
+              width={150}
+              height={150}
             />
           </div>
         ) : (
