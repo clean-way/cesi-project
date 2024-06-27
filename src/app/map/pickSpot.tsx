@@ -60,9 +60,9 @@ function PickSpot({ id, setSpot }: { id: string; setSpot: (spot: SpotWithTrash) 
         <form onSubmit={handleSubmit} className="flex flex-col gap-4 p-4">
             <Input type="file" name="file" onChange={handleChange} />
       <DrawerFooter className="flex justify-between p-0">
-        <Button className="w-full" type="submit">Pick this spot</Button>
+        <Button className="w-full" type="submit">Ramasser le déchet</Button>
         <DrawerClose>
-          <Button variant="outline">Cancel</Button>
+          <Button variant="outline" className="w-full">Annuler</Button>
         </DrawerClose>
       </DrawerFooter>
       </form>
