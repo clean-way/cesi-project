@@ -1,11 +1,11 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
+.idea
 # dependencies
 /node_modules
 /.pnp
 .pnp.js
 .yarn/install-state.gz
-
+secrets
 # testing
 /coverage
 
@@ -36,3 +36,15 @@ yarn-error.log*
 next-env.d.ts
 
 .env
+certificates
+
+postgres
+
+secrets
+
+**/public/sw.js
+**/public/workbox-*.js
+**/public/worker-*.js
+**/public/sw.js.map
+**/public/workbox-*.js.map
+**/public/worker-*.js.map

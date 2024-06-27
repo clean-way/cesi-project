@@ -14,59 +14,186 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(cuid())
-  email     String   @unique
-  firstName String
-  lastName  String
-  displayName String
-  password  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  articles  Articles[]
-  reportTrash     Trash[] @relation("reportTrash")
-  pickedTrash      Trash[] @relation("pickedTash")
-  cleanWalksAuthor CleanWalk[]
-  cleanWalksParticipant CleanWalk[] @relation("participants")
-  longitude Float
-  latitude Float
+  id                    String                 @id @default(cuid())
+  email                 String                 @unique
+  emailVerified         DateTime?
+  name                  String?
+  image                 String?
+  password              String?
+  createdAt             DateTime               @default(now())
+  updatedAt             DateTime               @updatedAt
+  articles              Articles[]
+  cleanWalksAuthor      CleanWalk[]
+  cleanWalksParticipant CleanWalkParticipant[]
+  longitude             Float?
+  latitude              Float?
+  accounts              Account[]
+  sessions              Session[]
+  spot                  Spot[]                 @relation("spotTrash")
+  spotTrashUpdate       SpotTrashUpdate[]      @relation("updateSpot")
+  role                  Roles                  @default(USER)  
+  // Optional for WebAuthn support
+  authenticator         Authenticator[]
+}
+
+model CleanWalkParticipant {
+  id          String    @id @default(cuid())
+  cleanWalkId String
+  cleanWalk   CleanWalk @relation(fields: [cleanWalkId], references: [id])
+  userId      String
+  user        User      @relation(fields: [userId], references: [id])
+}
+
+model CleanWalk {
+  id                   String                 @id @default(cuid())
+  description          String
+  name                 String
+  author               User                   @relation(fields: [authorId], references: [id])
+  authorId             String
+  longitude            Float
+  latitude             Float
+  bannerImage          String?
+  startAt              DateTime
+  endAt                DateTime
+  createdAt            DateTime               @default(now())
+  updatedAt            DateTime               @updatedAt
+  cleanWalkParticipant CleanWalkParticipant[]
 }
 
 model Articles {
   id        String   @id @default(cuid())
   title     String
-  body   String
+  body      String
   author    User     @relation(fields: [authorId], references: [id])
   authorId  String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
-model Trash {
-  id        String   @id @default(cuid())
-  type      String
-  image     String
-  author    User     @relation(fields: [authorId], references: [id], name: "reportTrash")
-  authorId  String
-  pickedBy  User?     @relation(fields: [pickedById], references: [id], name: "pickedTash")
-  pickedById String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  longitude Float
-  latitude Float
+model DumpQuantities {
+  id                  String                @id @default(cuid())
+  label               String
+  imageUri            String
+  quantity            Int
+  dumpQuantitiesTrash DumpQuantitiesTrash[]
 }
 
-model CleanWalk {
-  id        String   @id @default(cuid())
-  description String
-  name       String
-  author     User     @relation(fields: [authorId], references: [id])
-  authorId   String
-  startDate  DateTime
-  endDate    DateTime
-  longitude  Float
-  latitude   Float
-  bannerImage String?
+model DumpQuantitiesTrash {
+  id               String         @id @default(cuid())
+  dumpQuantitiesId String
+  dumpQuantities   DumpQuantities @relation(fields: [dumpQuantitiesId], references: [id])
+  trashId          String
+  trash            Trash          @relation(fields: [trashId], references: [id])
+}
+
+model Trash {
+  id                  String                @id @default(cuid())
+  name                String
+  spotTrash           SpotTrash[]
+  dumpQuantitiesTrash DumpQuantitiesTrash[]
+}
+
+model SpotTrash {
+  id              String            @id @default(cuid())
+  trashId         String
+  trash           Trash             @relation(fields: [trashId], references: [id])
+  spotId          String
+  spot            Spot              @relation(fields: [spotId], references: [id])
+  quantityLeft    Int
+  spotTrashUpdate SpotTrashUpdate[]
+}
+
+model Spot {
+  id                 String             @id @default(cuid())
+  authorId           String
+  author             User               @relation(fields: [authorId], references: [id], name: "spotTrash")
+  description        String
+  longitude          Float
+  latitude           Float
+  startPhotoUri      String
+  endPhotoUri        String?
+  createdAt          DateTime           @default(now())
+  updatedAt          DateTime           @updatedAt
+  completeCleaningAt DateTime?
+  access             AccessDifficulties
+  spotTrash          SpotTrash[]
+}
+
+model SpotTrashUpdate {
+  id          String    @id @default(cuid())
+  spotTrashId String
+  spotTrash   SpotTrash @relation(fields: [spotTrashId], references: [id])
+  quantity    Int
+  user        User?     @relation("updateSpot", fields: [userId], references: [id])
+  userId      String?
+}
+
+model Account {
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  participants User[] @relation("participants")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([provider, providerAccountId])
+}
+
+model Session {
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model VerificationToken {
+  identifier String
+  token      String
+  expires    DateTime
+
+  @@id([identifier, token])
+}
+
+// Optional for WebAuthn support
+model Authenticator {
+  id                   String  @id @default(cuid())
+  credentialID         String  @unique
+  userId               String
+  providerAccountId    String
+  credentialPublicKey  String
+  counter              Int
+  credentialDeviceType String
+  credentialBackedUp   Boolean
+  transports           String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// Enums
+
+enum Roles {
+  USER
+  WRITER
+  MODERATOR
+  AMDIN
+}
+
+enum AccessDifficulties {
+  NONE
+  BOAT
+  MOUNTAIN
+  FEETONLY
 }
