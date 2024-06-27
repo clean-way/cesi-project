@@ -20,6 +20,9 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
       where: {
         id: params.id as string,
       },
+      include: {
+        articles: true
+      }
     });
 
     if (!user) {
@@ -38,6 +41,7 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
         image: user.image,
         createdAt: user.createdAt,
         role: user.role,
+        articles: user.articles
       },
     });
   } catch (error) {

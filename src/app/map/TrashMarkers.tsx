@@ -36,7 +36,6 @@ function TrashMarkers({
   const [trashData, setTrashData] = useState(null as SpotWithTrash | null);
 
   useEffect(() => {
-    console.log("fetching trash");
     fetch(`/api/spot?longitude=${longitude}&latitude=${latitude}`)
       .then((res) => res.json())
       .then((data) => {

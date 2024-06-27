@@ -65,7 +65,7 @@ export default function ArticlePage({params} : {params: {id : string}}){
     return(
         <>
             <section className="bg-ct-blue-600 min-h-screen xl:py-10 xl:px-5">
-                <Card className="container mx-auto p-8 xl:px-12 xl:pb-12 h-full flex flex-col justify-center space-y-5">
+                <Card className="mx-auto p-8 xl:px-12 xl:pb-12 h-full flex flex-col justify-center space-y-5 m-8 xl:m-4">
                     <div className="space-y-1">                                        
                         <Text text={article.title} variant="h4" fontWeight="semibold" />
                         <div className="flex space-x-2 items-center">

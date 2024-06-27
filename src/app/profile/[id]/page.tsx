@@ -1,16 +1,22 @@
 "use client"
 
-import { User } from "@prisma/client";
+import { Prisma, User } from "@prisma/client";
 import { useEffect, useState } from "react";
 import ProfilePageContent from "./ProfilePageContent";
 import Header from "@/components/common/Header";
 import { useRouter } from "next/navigation";
 import NeedAuthButton from "@/components/common/NeedAuthButton";
 
+type UserWithArticles = Prisma.UserGetPayload<{
+    include: {
+        articles: true
+    }
+}>;
+
 export default function ProfilePage({params}: {params: {id : string}}){
     const {id} = params;
 
-    const [user, setUser] = useState<User | null>(null);
+    const [user, setUser] = useState<UserWithArticles | null>(null);
 
     const [error, setError] = useState<boolean>(false);
     

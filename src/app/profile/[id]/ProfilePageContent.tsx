@@ -7,9 +7,15 @@ import { PiTireDuotone, PiBirdFill, PiTreeEvergreenBold } from "react-icons/pi";
 import { GrPaint } from "react-icons/gr";
 import RoleBadge from "@/components/profile/RoleBadge";
 import ArticleCard from "@/components/profile/ArticleCard";
-import { User } from "@prisma/client";
+import { Prisma, User } from "@prisma/client";
 
-export default function ProfilePageContent({user} : {user : User}){
+type UserWithArticles = Prisma.UserGetPayload<{
+    include: {
+        articles: true
+    }
+}>;
+
+export default function ProfilePageContent({user} : {user : UserWithArticles}){
     return (
         <section className="bg-ct-blue-600 min-h-screen xl:py-10 xl:px-5">
                 <Card className="container mx-auto p-8 xl:p-12 h-full flex flex-col justify-center space-y-5">
@@ -69,21 +75,18 @@ export default function ProfilePageContent({user} : {user : User}){
                     <div className="space-y-2">
                         <Text text="Articles publiés" variant="h4" fontWeight="semibold"/>
                         <div className="w-full flex flex-wrap justify-between items-start gap-y-4">
-                            <ArticleCard 
-                                title="Récap de ma première greenwalk !" 
-                                body="Petit article autjourd'hui pour vous faire un récapitulatif de mon expérience lors de ma première greenwalk"
-                                date={new Date("2024-01-12")}
-                                />
-                            <ArticleCard 
-                                title="Récap de ma seconde greenwalk !" 
-                                body="Petit article autjourd'hui pour vous faire un récapitulatif de mon expérience lors de ma seonde greenwalk"
-                                date={new Date("2024-01-30")}
-                                />
-                            <ArticleCard 
-                                title="J'adore Cleanway !" 
-                                body="Petit article autjourd'hui pour vous faire part de mon quotidien avec Cleanway !"
-                                date={new Date("2024-02-01")}
-                                />
+                            {
+                                user.articles.map((article) => (
+                                    <ArticleCard 
+                                        key={article.id}
+                                        title={article.title} 
+                                        body={article.body}
+                                        date={article.createdAt}
+                                        author={user}
+                                        id={article.id}
+                                    />
+                                ))
+                            }
                         </div>
                     </div>
                 </Card>
