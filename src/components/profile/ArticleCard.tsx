@@ -38,7 +38,7 @@ export default function ArticleCard({title, body, date, author, id} : {title: st
                         : <></>
                     }
                     
-                <Text text={body}/>
+                <Text text={body.length > 100 ? body.slice(0, 100) + '...' : body}/>
             </Card>        
         </Link>
         

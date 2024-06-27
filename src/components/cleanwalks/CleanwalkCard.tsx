@@ -100,7 +100,7 @@ export default function CleanwalkCard({
           <div className="flex flex-col xl:flex-row xl:justify-between">
             <Text text={cleanwalk.name} fontWeight="bold" />
           </div>
-          <Text text={cleanwalk.description} />
+          <Text text={!fullSize ? cleanwalk.description.slice(0, 100) + "..." : cleanwalk.description} />
           {cleanwalk.cleanWalkParticipant ? (
             <div>
               <h2 className="text-ct-blue-600 font-bold mt-2">Participants ({cleanwalk.cleanWalkParticipant.length})</h2>
