@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { use, useState } from "react";
 import ReactMapGL, { Marker, NavigationControl } from "react-map-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import LocationMarker from "./LocationMarker";
@@ -37,6 +37,7 @@ function MapPage() {
         mapboxAccessToken={MAPBOX_TOKEN}
         maxZoom={20}
         minZoom={14}
+        onLoad={(e) => e.target.zoomTo(16, { duration: 0 })}
         pitch={0}
         onDrag={() => setAutoFocus(false)}
         onZoomStart={() => setDisabledForZoom(true)}
@@ -60,7 +61,7 @@ function MapPage() {
         )}
       </ReactMapGL>
       {!autoFocus && (
-        <Button className="absolute top-2 right-12" variant={"secondary"} onClick={handleRecenter}>Recenter</Button>
+        <Button className="absolute top-2 right-12" variant={"secondary"} onClick={handleRecenter}>Recentrer</Button>
       )}
       <NewSpot position={userPosition} trash={trash} setTrash={setTrash} />
       {GPSActivated ? null : (

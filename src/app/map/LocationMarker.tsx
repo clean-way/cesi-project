@@ -27,12 +27,13 @@ function LocationMarker({
         (actualPosition) => {
           setGPSActivated(true);
           const { latitude, longitude } = actualPosition.coords;
-          
+          setUserPosition([longitude, latitude]);
+
           if (!disabledForZoom) {
             if (autoFocus && userPosition === null) {
               map!.flyTo({
                 center: [longitude, latitude],
-                zoom: 19,
+                zoom: map?.getZoom(),
                 animate: false,
               })
             } else if (autoFocus) {
@@ -40,7 +41,6 @@ function LocationMarker({
             }
           }
           
-          setUserPosition([longitude, latitude]);
         },
         (error) => {
           setGPSActivated(false);
