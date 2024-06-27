@@ -5,21 +5,19 @@ import { authOptions } from '@/utils/authOptions';
 import { Roles } from '@prisma/client';
 
 export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
-
-  const session = await getServerSession(authOptions);
-
-  if (!session) {
-    return NextResponse.json({
-      message: "Unauthorized"
-    }, {
-      status: 401
-    })
-  }
   try {
     const article = await prisma.articles.findUnique({
       where: {
         id: params.id as string,
       },
+      include: {
+        author: {
+          select: {
+            name: true,
+            image: true
+          }
+        }
+      }
     });
 
     if (!article) {
