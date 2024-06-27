@@ -10,7 +10,7 @@ export default function NeedAuthButton(){
         <>
             <Header />
             <div className="size-full flex flex-col justify-center items-center text-center pt-12 px-8 space-y-3">
-                <Text text={'Vous devez être authentifier pour accéder à ceci'}/>
+                <Text text={'Vous devez être authentifier pour accéder à cette ressource'}/>
                 <PrimaryButton onClick={() => {router.push('/auth/signin')}}>
                     <Text text="S'authentifier"/>
                 </PrimaryButton>

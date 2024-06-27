@@ -80,29 +80,25 @@ export default function ArticlePage({params} : {params: {id : string}}){
     }
     
     return(
-        <>
-            <Header />
-            <section className="bg-ct-blue-600 min-h-screen xl:py-10 xl:px-5">
-                <Card className="container mx-auto p-8 xl:px-12 xl:pb-12 h-full flex flex-col justify-center space-y-5">
-                    <div className="space-y-1">                                        
-                        <Text text={article.title} variant="h4" fontWeight="semibold" />
-                        <div className="flex space-x-2 items-center">
-                            <Text text="Ecrit par "/>
-                            <Text text={author.name ?? ''} fontWeight="semibold"/>
-                            <div className="size-[30px]">
-                                <UserAvatar username={author.name ?? ''} source={author.image ?? ''} />
-                            </div> 
-                        </div>
-                        <div className="py-5">
-                            <Text text={article.body}/>
-                        </div>
-                        <div className="flex justify-end">
-                            <Text text={`${new Date(article.createdAt).toLocaleDateString()}`} variant="small"/>
-                        </div>
+        <section className="bg-ct-blue-600 min-h-screen xl:py-10 xl:px-5">
+            <Card className="container mx-auto p-8 xl:px-12 xl:pb-12 h-full flex flex-col justify-center space-y-5">
+                <div className="space-y-1">                                        
+                    <Text text={article.title} variant="h4" fontWeight="semibold" />
+                    <div className="flex space-x-2 items-center">
+                        <Text text="Ecrit par "/>
+                        <Text text={author.name ?? ''} fontWeight="semibold"/>
+                        <div className="size-[30px]">
+                            <UserAvatar username={author.name ?? ''} source={author.image ?? ''} />
+                        </div> 
                     </div>
-                </Card>
-            </section>
-        </>
-        
+                    <div className="py-5">
+                        <Text text={article.body}/>
+                    </div>
+                    <div className="flex justify-end">
+                        <Text text={`${new Date(article.createdAt).toLocaleDateString()}`} variant="small"/>
+                    </div>
+                </div>
+            </Card>
+        </section>        
     );
 }

@@ -20,7 +20,7 @@ export default function RoleBadge({role} : {role: Roles}){
         
     }
     return(
-        <div className="flex w-fit justify-center items-center bg-primary text-primary-foreground p-1 rounded-md">
+        <div className="flex w-fit justify-center items-center bg-primary text-primary-foreground p-1 rounded-md pr-2">
             <Text text={text} variant="small"/>
         </div>
     );

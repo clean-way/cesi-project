@@ -16,7 +16,12 @@ export default function CleanwalkCard({cleanwalk, fullSize} : {cleanwalk : Clean
                         cleanwalk.bannerImage ? 
                         <Image src={cleanwalk.bannerImage} width={0} height={0} className={`rounded-t-lg`} style={{objectFit: 'cover', width: '100%', height: fullSize ? 200 : 140}} alt={cleanwalk.name} sizes="100vw" /> : 
                         <div className="flex justify-center justify-start items-center space-x-2 py-2 h-[140px]">
-                            <Image src='/cleanway.png' width={30} height={40} alt='Cleanway' />                            
+                            <Image
+                                src="/logo_cleanway.svg"
+                                alt="Cleanway"
+                                width={30}
+                                height={30}
+                            />                       
                             <Text text="Cleanway" variant="h2"/>
                         </div>
                     }                    
