@@ -2,10 +2,27 @@
 import { Card } from "@/components/common/Card";
 import { Text } from "@/components/common/display/Texts";
 import { useEffect, useState } from "react";
-import { Articles, CleanWalk } from "@prisma/client";
+import { Articles, CleanWalk, Prisma } from "@prisma/client";
 import CleanwalksList from "./CleanwalksList";
 import Header from "@/components/common/Header";
 import Hyperlink from "@/components/common/buttons/Hyperlink";
+
+type CleanwalkWithParticipants = Prisma.CleanWalkGetPayload<{
+    include: {
+      cleanWalkParticipant: {
+        select: {
+          id: true;
+          user: {
+            select: {
+              name: true;
+              image: true;
+              id: true;
+            };
+          };
+        };
+      };
+    };
+  }>;
 
 async function getCleanwalks() : Promise<any>{
     try {
@@ -30,7 +47,7 @@ async function getCleanwalks() : Promise<any>{
 }
 
 export default function CleanwalksPage(){
-    const [cleanwalks, setCleanwalks] = useState<Array<CleanWalk>>([]);
+    const [cleanwalks, setCleanwalks] = useState<Array<CleanwalkWithParticipants>>([]);
     
     useEffect(() => {
         getCleanwalks().then((value) => {

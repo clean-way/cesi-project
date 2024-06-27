@@ -2,18 +2,35 @@
 import { Card } from "@/components/common/Card";
 import { Text } from "@/components/common/display/Texts";
 import { useEffect, useState } from "react";
-import { Articles, CleanWalk, User } from "@prisma/client";
+import { Articles, CleanWalk, Prisma, User } from "@prisma/client";
 import UserAvatar from "@/components/common/display/UserAvatar";
 import CleanwalkCard from "@/components/cleanwalks/CleanwalkCard";
 import { useRouter } from "next/navigation";
 import Header from "@/components/common/Header";
 import NeedAuthButton from "@/components/common/NeedAuthButton";
 
+type CleanwalkWithParticipants = Prisma.CleanWalkGetPayload<{
+    include: {
+      cleanWalkParticipant: {
+        select: {
+          id: true;
+          user: {
+            select: {
+              name: true;
+              image: true;
+              id: true;
+            };
+          };
+        };
+      };
+    };
+  }>;
+
 export default function CleanwalkPage({params} : {params: {id : string}}){
 
     const {id} = params;
 
-    const [cleanwalk, setCleanwalk] = useState<CleanWalk | null>(); 
+    const [cleanwalk, setCleanwalk] = useState<CleanwalkWithParticipants | null>(); 
 
     const [error, setError] = useState<boolean>(false);
     
