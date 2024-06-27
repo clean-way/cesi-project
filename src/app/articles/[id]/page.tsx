@@ -2,19 +2,26 @@
 import { Card } from "@/components/common/Card";
 import { Text } from "@/components/common/display/Texts";
 import { useEffect, useState } from "react";
-import { Articles, User } from "@prisma/client";
+import { Articles, Prisma, User } from "@prisma/client";
 import UserAvatar from "@/components/common/display/UserAvatar";
 import { useRouter } from "next/navigation";
 import Header from "@/components/common/Header";
 import NeedAuthButton from "@/components/common/NeedAuthButton";
 
+type ArticleWithAuthor = Prisma.ArticlesGetPayload<{
+    include: { author: {
+        select: {
+            name: true,
+            image: true
+        }
+    } };
+}>;
+
 export default function ArticlePage({params} : {params: {id : string}}){
 
     const {id} = params;
 
-    const [article, setArticle] = useState<Articles | null>();
-    const [author, setAuthor] = useState<User | null>();
-
+    const [article, setArticle] = useState<ArticleWithAuthor | null>();
     const [error, setError] = useState<boolean>(false);
     
     useEffect(() => {
@@ -40,33 +47,9 @@ export default function ArticlePage({params} : {params: {id : string}}){
             }
         }
         
-        async function getAuthorInfos(id: string) : Promise<any>{
-            try {
-                const rawResponse = await fetch(`${process.env.NEXT_PUBLIC_NEXTAPI_URL}/user/${id}`,
-                {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    }
-                });
-        
-                if (!rawResponse.ok) {
-                    console.log(rawResponse);
-        
-                    throw new Error('Failed to fetch data');
-                }
-        
-                return await rawResponse.json();
-            } catch (err) {
-                setError(true);
-            }
-        }
         
         getArticle(id).then((value) => {
             setArticle(value.article);
-            getAuthorInfos(value.article.authorId).then((value) => {
-                setAuthor(value.user);
-            });
         });
         
     }, [id]);
@@ -75,7 +58,7 @@ export default function ArticlePage({params} : {params: {id : string}}){
         return <NeedAuthButton/>;
     }
 
-    if(!article || !author){
+    if(!article){
         return <></>;
     }
     
@@ -88,9 +71,9 @@ export default function ArticlePage({params} : {params: {id : string}}){
                         <Text text={article.title} variant="h4" fontWeight="semibold" />
                         <div className="flex space-x-2 items-center">
                             <Text text="Ecrit par "/>
-                            <Text text={author.name ?? ''} fontWeight="semibold"/>
+                            <Text text={article.author.name ?? ''} fontWeight="semibold"/>
                             <div className="size-[30px]">
-                                <UserAvatar username={author.name ?? ''} source={author.image ?? ''} />
+                                <UserAvatar username={article.author.name ?? ''} source={article.author.image ?? ''} />
                             </div> 
                         </div>
                         <div className="py-5">

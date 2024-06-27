@@ -5,15 +5,6 @@ import { authOptions } from '@/utils/authOptions';
 import { Roles } from '@prisma/client';
 
 export async function GET(req: NextRequest) {
-    const session = await getServerSession(authOptions);
-
-    if (!session) {
-        return NextResponse.json({
-            message: "Unauthorized"
-        }, {
-            status: 401
-        })
-    }
     try {
         const limit = req.nextUrl.searchParams.get('limit') ? parseInt(req.nextUrl.searchParams.get('limit') as string) : 10;
         const page = req.nextUrl.searchParams.get('page') ? parseInt(req.nextUrl.searchParams.get('page') as string) : 1;
@@ -32,6 +23,14 @@ export async function GET(req: NextRequest) {
         const articles = await prisma.articles.findMany({
             skip: (page - 1) * limit,
             take: limit,
+            include: {
+                author: {
+                    select: {
+                        name: true,
+                        image: true
+                    }
+                }
+            }
         });
 
         return NextResponse.json({
@@ -49,6 +48,8 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
     const session = await getServerSession(authOptions);
 
+    console.log(session);
+
     if (!session || session.user.role === Roles.USER) {
         return NextResponse.json({
             message: "Unauthorized"
@@ -57,9 +58,9 @@ export async function POST(req: NextRequest) {
         })
     }
 
-    const { title, body, authorId } = await req.json();
+    const { title, body } = await req.json();
 
-    if (!title || !body || !authorId) {
+    if (!title || !body) {
         return NextResponse.json({
             message: "Missing required fields"
         }, {

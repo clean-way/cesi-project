@@ -29,7 +29,25 @@ export const ArticleForm = () => {
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         setLoading(true);
 
-    // TODO : Create article
+        const response = await fetch("/api/article", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                title: values.name,
+                body: values.body,
+            }),
+        });
+
+
+        if (response.ok) {
+            window.location.href = "/articles";
+        } else {
+            const data = await response.json();
+            setError(errors[data.message] || "Une erreur s'est produite");
+        }
+
 
     setLoading(false);
     };  
