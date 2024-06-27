@@ -58,6 +58,12 @@ export default function Header() {
                   <Link href="/cleanwalks">Cleanwalk</Link>
                 </li>
                 <li>
+                  <Link href="/articles">Articles</Link>
+                </li>                
+                <li>
+                  <Link href={`/profile/${session.user.id}`}>Profil</Link>
+                </li>
+                <li>
                   <PrimaryButton onClick={() => signOut()}>
                     Se déconnecter
                   </PrimaryButton>
@@ -91,7 +97,15 @@ export default function Header() {
                     <li>
                       <Link href="/cleanwalks">Cleanwalk</Link>
                     </li>
-                    <div className="border-b border-gray-100"></div>
+                    <div className="border-b border-gray-100"></div>            
+                    <li>
+                      <Link href="/articles">Articles</Link>
+                    </li>
+                    <div className="border-b border-gray-100"></div>               
+                    <li>
+                      <Link href={`/profile/${session.user.id}`}>Profil</Link>
+                    </li>
+                    <div className="border-b border-gray-100"></div>    
                     <li className="flex justify-center">
                       <PrimaryButton onClick={() => signOut()}>
                         Se déconnecter

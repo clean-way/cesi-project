@@ -51,9 +51,6 @@ export default function ProfilePage({params}: {params: {id : string}}){
     }
 
     return (
-        <>
-            <Header />
-            <ProfilePageContent user={user}/>
-        </>
+        <ProfilePageContent user={user}/>
     );
 }

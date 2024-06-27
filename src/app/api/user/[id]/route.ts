@@ -37,6 +37,7 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
         email: user.email,
         image: user.image,
         createdAt: user.createdAt,
+        role: user.role,
       },
     });
   } catch (error) {

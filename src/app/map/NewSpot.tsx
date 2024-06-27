@@ -121,6 +121,8 @@ const removeTrash = (index : number) => {
             body: data,
         });
 
+        console.log(response);
+
         const result = await response.json();
         if (response.ok) {
             setTrash([...trash, result.spot]);
