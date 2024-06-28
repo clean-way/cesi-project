@@ -47,6 +47,9 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          build-args: | 
+            NEXT_PUBLIC_NEXTAPI_URL=${{ secrets.PROD_NEXT_PUBLIC_NEXTAPI_URL }}
+            NEXT_PUBLIC_MAPBOX_TOKEN="${{ secrets.PROD_NEXT_PUBLIC_MAPBOX_TOKEN }}"
 
   build-dev:
       runs-on: ubuntu-latest
@@ -80,3 +83,7 @@ jobs:
             push: true
             tags: ${{ steps.meta.outputs.tags }}
             labels: ${{ steps.meta.outputs.labels }}
+            build-args: |
+              NEXT_PUBLIC_NEXTAPI_URL=${{ secrets.DEV_NEXT_PUBLIC_NEXTAPI_URL }}
+              NEXT_PUBLIC_MAPBOX_TOKEN="${{ secrets.DEV_NEXT_PUBLIC_MAPBOX_TOKEN }}"
+            
