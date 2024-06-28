@@ -46,6 +46,11 @@ COPY --from=builder /app/package.json ./package.json
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/prisma ./prisma
 
+ARG GOOGLE_KEYFILE
+
+RUN mkdir -p /app/secrets
+RUN echo $GOOGLE_KEYFILE > /app/secrets/keyfile.json
+
 ENTRYPOINT [ "docker-entrypoint" ]
 
 CMD npm start
@@ -64,6 +69,11 @@ RUN npm install
 RUN npx prisma generate
 
 COPY . .
+
+ARG GOOGLE_KEYFILE
+
+RUN mkdir -p ./secrets
+RUN echo $GOOGLE_KEYFILE > ./secrets/keyfile.json
 
 COPY docker/next/docker-entrypoint.sh /usr/local/bin/docker-entrypoint
 RUN chmod +x /usr/local/bin/docker-entrypoint
