@@ -32,6 +32,11 @@ ENV NEXT_PUBLIC_NEXTAPI_URL=${NEXT_PUBLIC_NEXTAPI_URL}
 ARG NEXT_PUBLIC_MAPBOX_TOKEN
 ENV NEXT_PUBLIC_MAPBOX_TOKEN=${NEXT_PUBLIC_MAPBOX_TOKEN}
 
+ARG GOOGLE_KEYFILE
+
+RUN mkdir -p /app/secrets
+RUN echo $GOOGLE_KEYFILE > /app/secrets/keyfile.json
+
 COPY docker/next/docker-entrypoint.sh /usr/local/bin/docker-entrypoint
 RUN chmod +x /usr/local/bin/docker-entrypoint
 
@@ -39,17 +44,11 @@ RUN addgroup -g 1001 -S nodejs
 RUN adduser -S nextjs -u 1001
 USER nextjs
 
-
 COPY --from=builder --chown=nextjs:nodejs /app/.next ./.next
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package.json ./package.json
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/prisma ./prisma
-
-ARG GOOGLE_KEYFILE
-
-RUN mkdir -p /app/secrets
-RUN echo $GOOGLE_KEYFILE > /app/secrets/keyfile.json
 
 ENTRYPOINT [ "docker-entrypoint" ]
 
