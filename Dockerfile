@@ -54,6 +54,9 @@ ARG NEXT_PUBLIC_MAPBOX_TOKEN
 ENV NEXT_PUBLIC_MAPBOX_TOKEN=${NEXT_PUBLIC_MAPBOX_TOKEN}
 
 RUN npm install 
+
+RUN npx prisma generate
+
 COPY . .
 
 COPY docker/next/docker-entrypoint.sh /usr/local/bin/docker-entrypoint
