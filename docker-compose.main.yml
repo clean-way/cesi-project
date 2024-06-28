@@ -17,12 +17,12 @@ services:
     labels:
       - "com.centurylinklabs.watchtower.enable=true"
       - "traefik.enable=true"
-      - "traefik.http.routers.next-prod.rule=Host(`cleanway.app`)"
+      - "traefik.http.routers.next-prod.rule=Host(`prod.cleanway.app`)"
       - "traefik.http.routers.next-prod.entrypoints=websecure"
       - "traefik.http.routers.next-prod.tls.certresolver=myresolver"
       - "traefik.http.services.next-prod.loadbalancer.server.port=3000"
-      - "traefik.http.routers.next-prod.middlewares=auth"
-      - "traefik.http.middlewares.auth.basicauth.users=admin:$$2y$$05$$puIHS3RA7c5YDrpmI7SxVe.fLepPi5DjP96hBGZ8A5KX3LnDb4IK."
+      - "traefik.http.routers.next-prod.middlewares=auth-prod"
+      - "traefik.http.middlewares.auth-prod.basicauth.users=admin:$$2y$$05$$puIHS3RA7c5YDrpmI7SxVe.fLepPi5DjP96hBGZ8A5KX3LnDb4IK."
       - "traefik.docker.network=internet"
     networks:
       - internet
