@@ -50,6 +50,7 @@ jobs:
           build-args: | 
             NEXT_PUBLIC_NEXTAPI_URL=${{ secrets.PROD_NEXT_PUBLIC_NEXTAPI_URL }}
             NEXT_PUBLIC_MAPBOX_TOKEN=${{ secrets.PROD_NEXT_PUBLIC_MAPBOX_TOKEN }}
+            GOOGLE_KEYFILE=${{ secrets.GOOGLE_KEYFILE }}
 
   build-dev:
       runs-on: ubuntu-latest
@@ -86,4 +87,4 @@ jobs:
             build-args: |
               NEXT_PUBLIC_NEXTAPI_URL=${{ secrets.DEV_NEXT_PUBLIC_NEXTAPI_URL }}
               NEXT_PUBLIC_MAPBOX_TOKEN=${{ secrets.DEV_NEXT_PUBLIC_MAPBOX_TOKEN }}
-            
+              GOOGLE_KEYFILE=${{ secrets.GOOGLE_KEYFILE }}
