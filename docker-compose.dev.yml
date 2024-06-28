@@ -21,6 +21,8 @@ services:
       - "traefik.http.routers.next-dev.entrypoints=websecure"
       - "traefik.http.routers.next-dev.tls.certresolver=myresolver"
       - "traefik.http.services.next-dev.loadbalancer.server.port=3000"
+      - "traefik.http.routers.next-dev.middlewares=auth"
+      - "traefik.http.middlewares.auth.basicauth.users=admin:$$2y$$05$$puIHS3RA7c5YDrpmI7SxVe.fLepPi5DjP96hBGZ8A5KX3LnDb4IK."
       - "traefik.docker.network=internet"
     networks:
       - internet

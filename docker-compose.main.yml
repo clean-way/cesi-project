@@ -21,6 +21,8 @@ services:
       - "traefik.http.routers.next-prod.entrypoints=websecure"
       - "traefik.http.routers.next-prod.tls.certresolver=myresolver"
       - "traefik.http.services.next-prod.loadbalancer.server.port=3000"
+      - "traefik.http.routers.next-prod.middlewares=auth"
+      - "traefik.http.middlewares.auth.basicauth.users=admin:$$2y$$05$$puIHS3RA7c5YDrpmI7SxVe.fLepPi5DjP96hBGZ8A5KX3LnDb4IK."
       - "traefik.docker.network=internet"
     networks:
       - internet
@@ -31,11 +33,19 @@ services:
       POSTGRES_USER: $POSTGRES_USER
       POSTGRES_PASSWORD: $POSTGRES_PASSWORD
       POSTGRES_DB: $POSTGRES_DB
+    volumes:
+      - postgres:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready"]
       interval: 10s
       timeout: 5s
       retries: 5
+    networks:
+      - prod
+
+volumes:
+  postgres:
+
 networks:
   internet:
     external: true
