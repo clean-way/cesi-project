@@ -9,6 +9,9 @@ FROM build as builder
 WORKDIR /app
 COPY . .
 RUN npm ci
+
+RUN npx prisma generate
+
 RUN npm run build
 
 
@@ -16,6 +19,12 @@ FROM build as production
 WORKDIR /app
 
 ENV NODE_ENV=production
+
+ARG NEXT_PUBLIC_NEXTAPI_URL
+ENV NEXT_PUBLIC_NEXTAPI_URL=${NEXT_PUBLIC_NEXTAPI_URL}
+
+ARG NEXT_PUBLIC_MAPBOX_TOKEN
+ENV NEXT_PUBLIC_MAPBOX_TOKEN=${NEXT_PUBLIC_MAPBOX_TOKEN}
 
 COPY docker/next/docker-entrypoint.sh /usr/local/bin/docker-entrypoint
 RUN chmod +x /usr/local/bin/docker-entrypoint
@@ -37,7 +46,17 @@ CMD npm start
 
 FROM build as development
 ENV NODE_ENV=development
+
+ARG NEXT_PUBLIC_NEXTAPI_URL
+ENV NEXT_PUBLIC_NEXTAPI_URL=${NEXT_PUBLIC_NEXTAPI_URL}
+
+ARG NEXT_PUBLIC_MAPBOX_TOKEN
+ENV NEXT_PUBLIC_MAPBOX_TOKEN=${NEXT_PUBLIC_MAPBOX_TOKEN}
+
 RUN npm install 
+
+RUN npx prisma generate
+
 COPY . .
 
 COPY docker/next/docker-entrypoint.sh /usr/local/bin/docker-entrypoint

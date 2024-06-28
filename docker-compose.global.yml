@@ -37,3 +37,4 @@ networks:
   internet:
     driver: bridge
     name: custom_frontend
+    external: true
