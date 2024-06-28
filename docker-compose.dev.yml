@@ -2,7 +2,8 @@ services:
   next:
     image: ghcr.io/clean-way/cesi-project/next-app:develop
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
     environment:
       DATABASE_URL: postgresql://$POSTGRES_USER:$POSTGRES_PASSWORD@postgres:5432/$POSTGRES_DB
       APPLE_CLIENT_SECRET: $APPLE_CLIENT_SECRET
@@ -33,11 +34,10 @@ services:
     volumes:
       - postgres:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready", "-d", "db_prod"]
-      interval: 30s
-      timeout: 60s
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 10s
+      timeout: 5s
       retries: 5
-      start_period: 80s
     networks:
       - dev
 
