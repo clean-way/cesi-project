@@ -27,6 +27,8 @@ async function getArticles() : Promise<any>{
             }
         });
 
+        console.log(rawResponse);
+
         if (!rawResponse.ok) {
             console.log(await rawResponse.json());
 
