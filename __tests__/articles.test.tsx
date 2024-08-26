@@ -10,12 +10,6 @@ test('renders articles page with no articles', () => {
     };
     (useSession as jest.Mock).mockReturnValueOnce([mockSession, 'authenticated']);
 
-    // global.fetch = jest.fn(() =>
-    //   Promise.resolve({
-    //     json: () => Promise.resolve({ articles: [] }),
-    //   }),
-    // ) as jest.Mock;
-
     jest.spyOn(global, "fetch").mockImplementation( 
       jest.fn(
         () => Promise.resolve({ json: () => Promise.resolve({ articles: [] }), 
