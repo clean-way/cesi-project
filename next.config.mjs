@@ -2,12 +2,7 @@
 import WithPWA from 'next-pwa';
 const nextConfig = {
     images: {
-        remotePatterns: [
-          {
-            protocol: "https",
-            hostname: "**",
-          },
-        ],
+        domains: ['storage.googleapis.com']
       },
 };
 
