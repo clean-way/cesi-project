@@ -3,7 +3,7 @@ set -e
 
 echo "Le docker-entrepoint s'execute"
 
-npx prisma migrate dev
+npx prisma migrate deploy
 
 echo "Le docker-entrepoint a terminé"
 
