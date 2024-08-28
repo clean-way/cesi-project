@@ -7,7 +7,7 @@ import Header from "@/components/common/Header";
 import { useRouter } from "next/navigation";
 import NeedAuthButton from "@/components/common/NeedAuthButton";
 
-type UserWithArticles = Prisma.UserGetPayload<{
+export type UserWithArticles = Prisma.UserGetPayload<{
     include: {
         articles: true
     }
