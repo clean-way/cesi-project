@@ -12,4 +12,4 @@ jobs:
         - name: Lighthouse
           uses: foo-software/lighthouse-check-action@master
           with:
-            urls: 'https://prod.cleanway.app,https://dev.cleanway.app'
+            urls: 'https://prod.cleanway.app'

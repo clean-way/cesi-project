@@ -131,7 +131,7 @@ export default function CleanwalkCard({
                   {cleanwalk.cleanWalkParticipant.map((participant) => (
                     <li key={participant.id} className="flex items-center space-x-2">
                       {participant.user.image ? (
-                        <Image
+                        <img
                         src={participant.user.image!}
                         width={30}
                         height={30}

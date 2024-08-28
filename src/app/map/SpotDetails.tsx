@@ -10,9 +10,7 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import { Button } from "@/components/ui/button";
-import Image from "next/image";
 import PickSpot from "./pickSpot";
-import { H2 } from "@/components/common/display/Texts";
 
 type SpotWithTrash = Prisma.SpotGetPayload<{
   include: { spotTrash: { include: { trash: true } } };
@@ -42,7 +40,7 @@ function SpotDetails({ spot, setSpot }: { spot: SpotWithTrash; setSpot: (spot: S
         <DrawerDescription>{spot.description}</DrawerDescription>
       </DrawerHeader>
       <div className="p-4">
-      <Image
+      <img
           src={spot.startPhotoUri}
           alt="Spot photo"
           width={150}
@@ -71,7 +69,7 @@ function SpotDetails({ spot, setSpot }: { spot: SpotWithTrash; setSpot: (spot: S
         {spot.completeCleaningAt ? (
           <div>
             Ramassé le {new Date(spot.completeCleaningAt).toLocaleDateString()} à {new Date(spot.completeCleaningAt).toLocaleTimeString()} :
-            <Image
+            <img
               src={spot.endPhotoUri as string}
               alt="Spot photo"
               width={150}
