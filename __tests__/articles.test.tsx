@@ -3,14 +3,19 @@ import ArticlesPage from '@/app/articles/page';
 import '@testing-library/jest-dom'
 import { useSession } from "next-auth/react";
 import ArticleCard from '@/components/profile/ArticleCard';
+import { Roles } from '@prisma/client';
 jest.mock("next-auth/react");
 
-test('renders articles page with no articles', () => {
-    const mockSession = {
-      expires: new Date(Date.now() + 2 * 86400).toISOString(),
-      user: { username: "admin" }
-    };
-    (useSession as jest.Mock).mockReturnValueOnce([mockSession, 'authenticated']);
+test('renders articles page with no articles, show two label "no article"', () => {
+  const mockSession = {
+    expires: new Date(Date.now() + 2 * 86400).toISOString(),
+    user: {
+      name: 'Toto',
+      email: 'toto@toto.toto',
+      role: Roles.USER,
+    },
+  };
+  (useSession as jest.Mock).mockReturnValue({data: mockSession, status: 'authenticated'});
 
     jest.spyOn(global, "fetch").mockImplementation( 
       jest.fn(
@@ -49,4 +54,40 @@ test('renders article card', () => {
   
   expect(articleBody).toBeInTheDocument();
   expect(articleTitle).toBeInTheDocument();
+});
+
+test('renders articles page with admin account, show write article button', () => {
+  const mockSession = {
+    expires: new Date(Date.now() + 2 * 86400).toISOString(),
+    user: {
+      name: 'Toto',
+      email: 'toto@toto.toto',
+      role: Roles.AMDIN,
+    },
+  };
+  (useSession as jest.Mock).mockReturnValue({data: mockSession, status: 'authenticated'});
+
+  render(<ArticlesPage />);
+
+  const writeArticleButton = screen.getByText('Ecrire un article');
+  
+  expect(writeArticleButton).toBeInTheDocument();
+});
+
+test('renders articles page with user account, doesn\'t show write article button', () => {
+  const mockSession = {
+    expires: new Date(Date.now() + 2 * 86400).toISOString(),
+    user: {
+      name: 'Toto',
+      email: 'toto@toto.toto',
+      role: Roles.USER,
+    },
+  };
+  (useSession as jest.Mock).mockReturnValue({data: mockSession, status: 'authenticated'});
+
+  render(<ArticlesPage />);
+
+  const writeArticleButton = screen.queryByText('Ecrire un article');
+  
+  expect(writeArticleButton).not.toBeInTheDocument();
 });
