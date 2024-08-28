@@ -6,6 +6,14 @@ import ArticleCard from '@/components/profile/ArticleCard';
 import { Roles } from '@prisma/client';
 jest.mock("next-auth/react");
 
+global.fetch = ( 
+  jest.fn(
+    () => Promise.resolve({ json: () => Promise.resolve({ articles: [] }), 
+    ok: true,
+  },
+), 
+) as jest.Mock );
+
 test('renders articles page with no articles, show two label "no article"', () => {
   const mockSession = {
     expires: new Date(Date.now() + 2 * 86400).toISOString(),
@@ -17,19 +25,11 @@ test('renders articles page with no articles, show two label "no article"', () =
   };
   (useSession as jest.Mock).mockReturnValue({data: mockSession, status: 'authenticated'});
 
-    jest.spyOn(global, "fetch").mockImplementation( 
-      jest.fn(
-        () => Promise.resolve({ json: () => Promise.resolve({ articles: [] }), 
-        ok: true,
-      },
-    ), 
-    ) as jest.Mock ) 
+  render(<ArticlesPage />);
 
-    render(<ArticlesPage />);
-
-    const noArticleLabels = screen.getAllByText('Aucun article dans cette catégorie');
-    
-    expect(noArticleLabels.length).toBe(2);
+  const noArticleLabels = screen.getAllByText('Aucun article dans cette catégorie');
+  
+  expect(noArticleLabels.length).toBe(2);
 });
 
 test('renders article card', () => {
