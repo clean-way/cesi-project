@@ -1,18 +1,25 @@
 /** @type {import('next').NextConfig} */
 import WithPWA from 'next-pwa';
 const nextConfig = {
-    images: {
-        domains: ['storage.googleapis.com']
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'storage.googleapis.com',
+        port: '',
+        pathname: '/cleanway-next/**',
       },
-      compiler: {
-        removeConsole: process.env.NODE_ENV !== "development",
-      },
+    ],
+  },
+  compiler: {
+    removeConsole: process.env.NODE_ENV !== "development",
+  },
 };
 
 const WithPwa = WithPWA({
-  dest: "public", // Destination directory for the PWA files
-  disable: process.env.NODE_ENV === "development", // Disable PWA in development mode
-  register: true, // Register the PWA service worker
-  skipWaiting: true, // Skip waiting for service worker activation
+  dest: "public", 
+  disable: process.env.NODE_ENV === "development", 
+  register: true, 
+  skipWaiting: true, 
 });
 export default WithPwa(nextConfig);
