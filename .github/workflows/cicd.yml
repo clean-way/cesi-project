@@ -46,7 +46,7 @@ jobs:
       run: npm ci
 
     - name: Migrade DB
-      run: pgsql -h localhost -p 5432 -U postgres -d postgres < cypress/test.sql
+      run: psql -h localhost -p 5432 -U postgres -d postgres < cypress/test.sql
       env:
         PGPASSWORD: postgres
 
