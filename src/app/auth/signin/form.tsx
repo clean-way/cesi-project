@@ -36,7 +36,7 @@ export const LoginForm = () => {
     setLoading(true);
 
     const login = await signIn("credentials", {
-      email: values.email,
+      email: values.email.toLowerCase().trim(),
       password: values.password,
       callbackUrl: callbackUrl || "/",
       redirect: false,

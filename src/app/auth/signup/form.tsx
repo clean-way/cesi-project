@@ -61,7 +61,7 @@ export const RegisterForm = () => {
 
     try {
       const result = await register(
-        values.email,
+        values.email.toLowerCase().trim(),
         values.password,
         values.firstname + " " + values.lastname
       );
