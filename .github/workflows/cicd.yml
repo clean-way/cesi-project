@@ -55,9 +55,7 @@ jobs:
       with:
         build: npm run build
         start: npm run start
-        record: false
         config-file: cypress.config.ts
-        parallel: true
         browser: chrome
           
   build-prod:
