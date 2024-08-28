@@ -46,7 +46,7 @@ jobs:
       run: npm ci
 
     - name: Migrade DB
-      run: pg_restore -U postgres -f cypress/test.sql
+      run: pg_restore -d postgresql://postgres@localhost/postgres cypress/test.sql
       env:
         PGPASSWORD: postgres
 
