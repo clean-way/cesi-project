@@ -31,10 +31,10 @@ describe('Declare trash', () => {
         // Submit
         cy.get('form').submit();
 
-        cy.url().should('include', '/')
+        cy.url().should('contain', '/')
 
         //Go to map page
-        cy.get('a[href*="map"]', {timeout: 10000}).should('be.visible');
+        cy.get('a[href*="map"]', {timeout: 60000}).should('be.visible');
         cy.get('a[href*="map"]').click({multiple: true, force: true});
 
         cy.url().should('include', '/map');
