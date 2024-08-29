@@ -17,38 +17,6 @@ describe('Navigation to articles', () => {
     })
 })
 
-Cypress.Commands.add(
-    "mockGeolocation",
-    (coords) => {
-      cy.window().then((win) => {
-        cy.wrap(
-          Cypress.automation("remote:debugger:protocol", {
-            command: "Browser.grantPermissions",
-            params: {
-              permissions: ["geolocation"],
-              origin: win.location.origin,
-            },
-          }),
-        );
-      });
-      
-      console.debug(
-        `cypress::setGeolocationOverride with position ${JSON.stringify(coords)}`,
-      );
-      
-      cy.log("**setGeolocationOverride**").then(() =>
-        Cypress.automation("remote:debugger:protocol", {
-          command: "Emulation.setGeolocationOverride",
-          params: {
-            latitude: coords.latitude,
-            longitude: coords.longitude,
-            accuracy: 50,
-          },
-        }),
-      );
-    },
-  );
-
 describe('Declare trash', () => {
     it('should navigate to the sign in page and sign in then go to map to declare trash', () => {    
         cy.intercept('POST', '**/api/auth/**').as('login');  
@@ -79,7 +47,20 @@ describe('Declare trash', () => {
 
         // Check if the map is visible
         cy.get('canvas');
-        cy.mockGeolocation({ latitude: 0, longitude: 0 })
+        it('devrait utiliser une géolocalisation simulée', () => {
+            // Stub de la méthode getCurrentPosition
+            cy.window().then((win) => {
+              cy.stub(win.navigator.geolocation, 'getCurrentPosition')
+                .callsFake((cb) => {
+                  return cb({
+                    coords: {
+                      latitude: 48.8566,
+                      longitude: 2.3522,
+                    }
+                  });
+                });
+            });
+        
         cy.get('img[alt="User Marker"]', {timeout: 20000}).should('be.visible');
 
         // Add a trash spot
@@ -130,7 +111,6 @@ describe('Declare trash', () => {
         // Close the window
         cy.get('button').contains('Fermer').first().click();
 
-        
-
+    })
     })
 })
