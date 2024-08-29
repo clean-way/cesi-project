@@ -59,14 +59,6 @@ jobs:
         start: npm run start
         config-file: cypress.config.ts
         browser: chrome
-        record: true
-
-    - name: Upload video 📼
-      uses: actions/upload-artifact@v2
-      if: failure()
-      with:
-        name: Test videos failure
-        path: cypress/videos/video.mp4
           
   build-prod:
     runs-on: ubuntu-latest
