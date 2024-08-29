@@ -137,7 +137,7 @@ const removeTrash = (index : number) => {
     return (
         <Drawer open={open} onOpenChange={setOpen}>
             <DrawerTrigger className="absolute bottom-0 left-0 m-8 z-50 bg-white p-4 rounded-full shadow-lg">
-                <PlusIcon size={32} className="text-primary" />
+                <PlusIcon id="newSpotButton" size={32} className="text-primary" />
             </DrawerTrigger>
             <DrawerContent className="max-w-[1000px] mx-auto">
                 <DrawerHeader>

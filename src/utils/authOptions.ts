@@ -91,11 +91,16 @@ export const authOptions : AuthOptions = {
     },
     session: { strategy: "jwt" as SessionStrategy},
     callbacks: {
-        async jwt({ token, user } : { token: JWT, user: User | AdapterUser }) {
-            if(user){
+        async jwt({ token, trigger, session, user } : { token: JWT, trigger?: "signIn" | "signUp" | "update", session?: Session, user: User | AdapterUser }) {
+            if (trigger === "update" && session?.user.name) {
+                token.name = session.user.name
+              }
+              
+            if(user) {
                 token.role = user.role
                 token.userId = user.id
             }
+            
             return token
         },
         async session({ session, token } : { session: Session, token: TokenSet }) {

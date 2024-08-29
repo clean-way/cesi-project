@@ -57,7 +57,7 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
 export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
   const session = await getServerSession(authOptions);
 
-  if (!session || session.user.role === Roles.WRITER || session.user.role === Roles.USER) {
+  if (!session || session.user.role !== Roles.AMDIN) {
     return NextResponse.json({
       message: "Unauthorized"
     }, {
@@ -124,7 +124,7 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
       })
     }
 
-    if (session.user.id !== user.id) {
+    if (session.user.id !== user.id && session.user.role !== Roles.AMDIN) {
       return NextResponse.json({
         message: "Unauthorized"
       }, {

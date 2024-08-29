@@ -28,9 +28,9 @@ async function getArticles() : Promise<any>{
         });
 
         if (!rawResponse.ok) {
-            console.log(rawResponse);
+            console.log(await rawResponse.json());
 
-            throw new Error('Failed to fetch data');
+            throw new Error('Failed to fetch articles from API');
         }
 
         return await rawResponse.json();

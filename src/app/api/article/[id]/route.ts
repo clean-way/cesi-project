@@ -46,7 +46,7 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
 export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
   const session = await getServerSession(authOptions);
 
-  if (!session || session.user.role === Roles.USER) {
+  if (!session || (session.user.role !== Roles.MODERATOR && session.user.role !== Roles.AMDIN && session.user.role !== Roles.WRITER)) {
     return NextResponse.json({
       message: "Unauthorized"
     }, {
@@ -99,7 +99,7 @@ export async function DELETE(req: NextRequest, { params }: { params: { id: strin
 export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
   const session = await getServerSession(authOptions);
 
-  if (!session || session.user.role === Roles.USER) {
+  if (!session || (session.user.role !== Roles.MODERATOR && session.user.role !== Roles.AMDIN && session.user.role !== Roles.WRITER)) {
     return NextResponse.json({
       message: "Unauthorized"
     }, {
