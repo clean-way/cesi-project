@@ -18,8 +18,9 @@ describe('Navigation to articles', () => {
 })
 
 describe('Declare trash', () => {
-    it('should navigate to the sign in page and sign in then go to map to declare trash', () => {        
-        cy.intercept('GET', '**/api/auth/session').as('login');
+    it('should navigate to the sign in page and sign in then go to map to declare trash', () => {    
+        cy.intercept('POST', '**/api/auth/**').as('login');  
+
         // Go to sign in page
         cy.visit('/auth/signin')
 
@@ -31,7 +32,7 @@ describe('Declare trash', () => {
 
         // Submit
         cy.get('form').submit();
-
+        
         cy.wait('@login');
 
         //Go to map page
