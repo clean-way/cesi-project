@@ -51,7 +51,7 @@ jobs:
         PGPASSWORD: postgres
 
     - name : Cypress run
-    - uses: cypress-io/github-action@v2
+      uses: cypress-io/github-action@v2
       env:
         NEXTAUTH_SECRET: "test"
       with:
@@ -60,11 +60,13 @@ jobs:
         config-file: cypress.config.ts
         browser: chrome
         record: true
-    - uses: actions/upload-artifact@v1
-        if: always()
-        with:
-          name: cypress-videos
-          path: cypress/videos
+
+    - name: Upload video 📼
+      uses: actions/upload-artifact@v2
+      if: failure()
+      with:
+        name: Test videos
+        path: cypress/videos
           
   build-prod:
     runs-on: ubuntu-latest
