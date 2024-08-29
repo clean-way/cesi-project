@@ -45,7 +45,7 @@ jobs:
     - name: Install modules
       run: npm ci
 
-    - name: Migrade DB
+    - name: Migrate DB
       run: psql -h localhost -p 5432 -U postgres -d postgres < cypress/test.sql
       env:
         PGPASSWORD: postgres
@@ -56,6 +56,10 @@ jobs:
         NEXTAUTH_SECRET: "test"
         NEXTAUTH_URL: "http://localhost:3000" 
         NEXT_PUBLIC_NEXTAPI_URL: "http://localhost:3000/api"
+        POSTGRES_PASSWORD: postgres
+        POSTGRES_USER: postgres
+        POSTGRES_DB: postgres
+        DATABASE_URL: postgresql://postgres:postgres@localhost:5432/postgres
       with:
         build: npm run build
         start: npm run start
