@@ -54,6 +54,8 @@ jobs:
       uses: cypress-io/github-action@v2
       env:
         NEXTAUTH_SECRET: "test"
+        NEXTAUTH_URL: "http://localhost:3000" 
+        NEXT_PUBLIC_NEXTAPI_URL: "http://localhost:3000/api"
       with:
         build: npm run build
         start: npm run start
