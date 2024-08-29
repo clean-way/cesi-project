@@ -65,8 +65,8 @@ jobs:
       uses: actions/upload-artifact@v2
       if: failure()
       with:
-        name: Test videos
-        path: cypress/videos
+        name: Test videos failure
+        path: cypress/videos/video.mp4
           
   build-prod:
     runs-on: ubuntu-latest
