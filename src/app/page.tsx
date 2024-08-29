@@ -1,6 +1,6 @@
-import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { getServerSession } from "next-auth";
+import Image from "next/image";
 
 export default async function Home() {
   const session = await getServerSession();
@@ -8,7 +8,7 @@ export default async function Home() {
   return (
     <>
     <main className="flex flex-col items-center justify-center h-[calc(100dvh-4rem)]">
-      <h1 className="text-6xl font-bold text-center">Agir pour ta ville,</h1>
+      <h1 className="text-6xl font-bold text-center">Test CI/CD Démo</h1>
       <h1 className="text-6xl font-bold text-primary text-center">c&apos;est dans la poche !</h1>
       <Image src="/logo_cleanway.svg" alt="Cleanway" width={100} height={100} className="mt-8" />
 
