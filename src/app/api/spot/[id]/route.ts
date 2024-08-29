@@ -78,7 +78,7 @@ export async function DELETE(req: NextRequest, { params }: { params: { id: strin
       })
     }
 
-    if (session.user.role === Roles.AMDIN || session.user.id !== spot.authorId || session.user.role === Roles.MODERATOR) {
+    if (session.user.role !== Roles.AMDIN && session.user.id !== spot.authorId && session.user.role !== Roles.MODERATOR) {
         return NextResponse.json({
             message: "Unauthorized"
         }, {
@@ -152,7 +152,7 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
       })
     }
 
-    if (session.user.role === Roles.AMDIN || session.user.id !== spot.authorId || session.user.role === Roles.MODERATOR) {
+    if (session.user.role !== Roles.AMDIN && session.user.id !== spot.authorId && session.user.role !== Roles.MODERATOR) {
         return NextResponse.json({
             message: "Unauthorized"
         }, {
